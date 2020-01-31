@@ -14,19 +14,20 @@ namespace WPFPokerGame.ViewModels
     {
         Dealer dealer = new Dealer();
 
-        public CommandBase ShuffleCommand { get; set; }
-
+        //public CommandBase ShuffleCommand { get; set; }
+        private ICommand _shuffleCardsCommand = null;
+        public ICommand ShuffleCardsCmd => _shuffleCardsCommand ?? (_shuffleCardsCommand = new ShuffleCardsCommand());
         public CardsViewModel()
         {
             LoadCards();
-            ShuffleCommand = new CommandBase(OnShuffle, CanShuffle);
+            //ShuffleCommand = new CommandBase(OnShuffle, CanShuffle);
         }
 
         // Properties
         public ObservableCollection<Card> DisplayCards { get; } = new ObservableCollection<Card>();
 
 
-       
+
         public void LoadCards()
         {
             List<Card> displayCardsToObservable = PopulateDisplayCards();
@@ -61,19 +62,18 @@ namespace WPFPokerGame.ViewModels
                 _commandCardsList = value;
                 ShuffleCommand.RaiseCanExecuteChanged();
             }
-        }
-*/
+        }*/
 
-        private void OnShuffle()
+        /*private void OnShuffle()
         {
 
-            // Implement with Pro C# 7 logic from section on custom commands. 
+            
             throw new NotImplementedException();
         }
 
         private bool CanShuffle()
         {
             return DisplayCards != null;
-        }
+        }*/
     }
 }

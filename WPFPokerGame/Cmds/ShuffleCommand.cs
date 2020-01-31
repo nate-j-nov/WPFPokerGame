@@ -1,4 +1,5 @@
-﻿/*using System;
+﻿using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using WPFPokerGame.Models.Cards;
@@ -7,18 +8,16 @@ using WPFPokerGame.ViewModels;
 
 namespace WPFPokerGame.Cmds
 {
-    public class ShuffleCards : CommandBasePro
+    public class ShuffleCardsCommand : CommandBasePro
     {
-        Dealer dealer = new Dealer();
-        public override bool CanExecute(object parameter)
-        {
-            return parameter == null && parameter is ObservableCollection<Card>;
-        }
+        public override bool CanExecute(object parameter) => parameter != null;
 
         public override void Execute(object parameter)
         {
-            if(parameter is ObservableCollection<Card> cards)
+            Dealer dealer = new Dealer();
+            if (parameter is ObservableCollection<Card> cards)
             {
+                cards.Clear();
                 dealer.PopulateDeck();
                 dealer.ShuffleDeck();
 
@@ -36,4 +35,4 @@ namespace WPFPokerGame.Cmds
             }
         }
     }
-}*/
+}

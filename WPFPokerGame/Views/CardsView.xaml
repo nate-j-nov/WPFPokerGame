@@ -22,8 +22,10 @@
 
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <ListBox ItemsSource="{Binding DisplayCards}"/>
-            <Button Content="Shuffle" Command="{Binding Path=ShuffleCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Margin="0,2,0,0"/>
+            <ListBox x:Name="lbCards" ItemsSource="{Binding DisplayCards}"/>
+            <Button Content="Shuffle" Command="{Binding Path=ShuffleCardsCmd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                    CommandParameter="{Binding ElementName=lbCards, Path=ItemsSource}"
+                    HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Margin="0,2,0,0"/>
         </StackPanel>
     </Grid>
 
