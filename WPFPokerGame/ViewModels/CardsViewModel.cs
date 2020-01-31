@@ -23,22 +23,24 @@ namespace WPFPokerGame.ViewModels
         }
 
         // Properties
-        public ObservableCollection<Card> DisplayCards { get; set; }
+        public ObservableCollection<Card> DisplayCards { get; } = new ObservableCollection<Card>();
 
 
-        // Constructor
+       
         public void LoadCards()
         {
+            List<Card> displayCardsToObservable = PopulateDisplayCards();
 
-            DisplayCards = PopulateDisplayCards();
+            foreach (var c in displayCardsToObservable)
+                DisplayCards.Add(c);
         }
 
-        public ObservableCollection<Card> PopulateDisplayCards()
+        public List<Card> PopulateDisplayCards()
         {
             dealer.PopulateDeck();
             dealer.ShuffleDeck();
 
-            ObservableCollection<Card> displayCards = new ObservableCollection<Card>();
+            List<Card> displayCards = new List<Card>();
 
             for (int x = 0; x <= 2; x++)
             {
@@ -64,7 +66,7 @@ namespace WPFPokerGame.ViewModels
 
         private void OnShuffle()
         {
-            DisplayCards = PopulateDisplayCards();
+            throw new NotImplementedException();
         }
 
         private bool CanShuffle()
