@@ -49,7 +49,7 @@ namespace WPFPokerGame.ViewModels
             return displayCards;
         }
 
-        private ObservableCollection<Card> _commandCardsList;
+        /*private ObservableCollection<Card> _commandCardsList;
         public ObservableCollection<Card> CommandCardsList
         {
             get
@@ -62,10 +62,12 @@ namespace WPFPokerGame.ViewModels
                 ShuffleCommand.RaiseCanExecuteChanged();
             }
         }
-
+*/
 
         private void OnShuffle()
         {
+
+            // Implement with Pro C# 7 logic from section on custom commands. 
             throw new NotImplementedException();
         }
 
