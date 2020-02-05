@@ -21,13 +21,11 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid>
-        <StackPanel Orientation="Horizontal">
-            <ListView x:Name="lvCards" ItemsSource="{Binding DisplayCards}"/>
-            <Button x:Name="btnShuffle" Content="Shuffle" Command="{Binding ShuffleCardsCmd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                    CommandTarget="{Binding ElementName=lvCards, Path=ItemsSource}"
+    <StackPanel Orientation="Horizontal">
+        <ListView x:Name="lvCards" ItemsSource="{Binding DisplayCards}"/>
+        <Button x:Name="btnShuffle" Content="Shuffle" Command="{Binding ShuffleCardsCmd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" 
+                    CommandParameter="{Binding ElementName=lvCards, Path=Items}"
                     HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Margin="0,2,0,0"/>
-        </StackPanel>
-    </Grid>
+    </StackPanel>
 
 </UserControl>

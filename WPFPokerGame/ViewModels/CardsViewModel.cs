@@ -14,12 +14,12 @@ namespace WPFPokerGame.ViewModels
     {
         Dealer dealer = new Dealer();
         
-        public ShuffleCardsCommand ShuffleCardsCmd { get; set; }
+        public ShuffleCardsCommand ShuffleCardsCmd { get; private set; }
         public CardsViewModel()
         {
             LoadCards();
             //ICommand _shuffleCardsCommand = null;
-            ShuffleCardsCmd = new ShuffleCardsCommand();
+            this.ShuffleCardsCmd = new ShuffleCardsCommand();
         }
 
         // Properties
@@ -46,31 +46,5 @@ namespace WPFPokerGame.ViewModels
             }
             return displayCards;
         }
-
-        /*private ObservableCollection<Card> _commandCardsList;
-        public ObservableCollection<Card> CommandCardsList
-        {
-            get
-            {
-                return _commandCardsList;
-            }
-            set
-            {
-                _commandCardsList = value;
-                ShuffleCommand.RaiseCanExecuteChanged();
-            }
-        }*/
-
-        /*private void OnShuffle()
-        {
-
-            
-            throw new NotImplementedException();
-        }
-
-        private bool CanShuffle()
-        {
-            return DisplayCards != null;
-        }*/
     }
 }

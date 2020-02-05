@@ -10,9 +10,12 @@ namespace WPFPokerGame.Commands
 {
     public class ShuffleCardsCommand : CommandBasePro
     {
-
         public override bool CanExecute(object parameter) => (parameter as Card) != null;
-
+        private CardsViewModel _viewModel;
+        /*public ShuffleCardsCommand(CardsViewModel viewModel)
+        {
+            this._viewModel = viewModel;
+        }*/
         public override void Execute(object parameter)
         {
             Dealer dealer = new Dealer();
@@ -33,6 +36,7 @@ namespace WPFPokerGame.Commands
                 {
                     cards.Add(dc);
                 }
+                
             }
         }
     }
