@@ -6,27 +6,24 @@ using System.Text;
 using System.Windows.Input;
 using WPFPokerGame.Models.Cards;
 using WPFPokerGame.Models;
-using WPFPokerGame.Cmds;
+using WPFPokerGame.Commands;
 
 namespace WPFPokerGame.ViewModels
 {
     public class CardsViewModel
     {
         Dealer dealer = new Dealer();
-
-        //public CommandBase ShuffleCommand { get; set; }
-        private ICommand _shuffleCardsCommand = null;
-        public ICommand ShuffleCardsCmd => _shuffleCardsCommand ?? (_shuffleCardsCommand = new ShuffleCardsCommand());
+        
+        public ShuffleCardsCommand ShuffleCardsCmd { get; set; }
         public CardsViewModel()
         {
             LoadCards();
-            //ShuffleCommand = new CommandBase(OnShuffle, CanShuffle);
+            //ICommand _shuffleCardsCommand = null;
+            ShuffleCardsCmd = new ShuffleCardsCommand();
         }
 
         // Properties
         public ObservableCollection<Card> DisplayCards { get; } = new ObservableCollection<Card>();
-
-
 
         public void LoadCards()
         {

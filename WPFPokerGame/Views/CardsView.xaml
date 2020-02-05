@@ -7,6 +7,7 @@
              xmlns:viewModel="clr-namespace:WPFPokerGame.ViewModels"
              xmlns:vml="clr-namespace:WPFPokerGame.VML"
              xmlns:data="clr-namespace:WPFPokerGame.Models.Cards"
+             xmlns:commands="clr-namespace:WPFPokerGame.Commands"
              vml:ViewModelLocator.AutoHookedUpViewModel="True"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d" 
@@ -15,16 +16,16 @@
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type data:Card}">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Path=FullCardName, Mode=OneWay}" Margin="0, 5, 4, 5"/>
+                <TextBlock Text="{Binding Path=FullCardName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 5, 4, 5"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
 
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <ListBox x:Name="lbCards" ItemsSource="{Binding DisplayCards}"/>
-            <Button Content="Shuffle" Command="{Binding Path=ShuffleCardsCmd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                    CommandParameter="{Binding ElementName=lbCards, Path=ItemsSource}"
+            <ListView x:Name="lvCards" ItemsSource="{Binding DisplayCards}"/>
+            <Button x:Name="btnShuffle" Content="Shuffle" Command="{Binding ShuffleCardsCmd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                    CommandTarget="{Binding ElementName=lvCards, Path=ItemsSource}"
                     HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Margin="0,2,0,0"/>
         </StackPanel>
     </Grid>

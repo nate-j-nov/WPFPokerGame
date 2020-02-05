@@ -3,6 +3,9 @@ using System.Windows;
 using System.Windows.Data;
 using System.Diagnostics;
 using System;
+using System.Windows.Input;
+using WPFPokerGame.Commands;
+
 
 namespace WPFPokerGame.Views
 {
@@ -16,8 +19,6 @@ namespace WPFPokerGame.Views
             InitializeComponent();
             //this.DataContext = new WPFPokerGame.ViewModels.CardsViewModel();
         }
-
-        
     }
 
     /*public class DebugDummyConverter : IValueConverter

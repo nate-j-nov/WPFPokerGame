@@ -61,9 +61,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Cmds\CommandBase.cs" />
-    <Compile Include="Cmds\CommandBasePro.cs" />
-    <Compile Include="Cmds\ShuffleCommand.cs" />
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\CommandBasePro.cs" />
+    <Compile Include="Commands\ShuffleCommand.cs" />
     <Compile Include="Models\Decision.cs" />
     <Compile Include="Models\DecisionType.cs" />
     <Compile Include="Models\ModelBase.cs" />

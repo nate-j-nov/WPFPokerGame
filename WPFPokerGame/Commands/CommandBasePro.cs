@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace WPFPokerGame.Cmds
+namespace WPFPokerGame.Commands
 {
     public abstract class CommandBasePro : ICommand
     {

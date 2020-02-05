@@ -6,11 +6,12 @@ using WPFPokerGame.Models.Cards;
 using WPFPokerGame.Models;
 using WPFPokerGame.ViewModels;
 
-namespace WPFPokerGame.Cmds
+namespace WPFPokerGame.Commands
 {
     public class ShuffleCardsCommand : CommandBasePro
     {
-        public override bool CanExecute(object parameter) => parameter != null;
+
+        public override bool CanExecute(object parameter) => (parameter as Card) != null;
 
         public override void Execute(object parameter)
         {
@@ -22,7 +23,7 @@ namespace WPFPokerGame.Cmds
                 dealer.ShuffleDeck();
 
                 List<Card> displayCards = new List<Card>();
-
+                
                 for (int x = 0; x <= 2; x++)
                 {
                     displayCards.Add(dealer.Deck.Pop());
