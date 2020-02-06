@@ -13,13 +13,13 @@ namespace WPFPokerGame.ViewModels
     public class CardsViewModel
     {
         Dealer dealer = new Dealer();
+
         
-        public ShuffleCardsCommand ShuffleCardsCmd { get; private set; }
         public CardsViewModel()
         {
             LoadCards();
             //ICommand _shuffleCardsCommand = null;
-            this.ShuffleCardsCmd = new ShuffleCardsCommand();
+            /*ShuffleCardsCmd = new ShuffleCardsCommand();*/
         }
 
         // Properties
@@ -33,6 +33,8 @@ namespace WPFPokerGame.ViewModels
                 DisplayCards.Add(c);
         }
 
+        private ICommand _shuffleCardsCommand = null;
+        public ICommand ShuffleCardsCmd => _shuffleCardsCommand ?? (_shuffleCardsCommand = new ShuffleCardsCommand());
         public List<Card> PopulateDisplayCards()
         {
             dealer.PopulateDeck();

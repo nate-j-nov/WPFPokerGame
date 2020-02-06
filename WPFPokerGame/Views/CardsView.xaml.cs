@@ -17,7 +17,11 @@ namespace WPFPokerGame.Views
         public CardsView()
         {
             InitializeComponent();
-            //this.DataContext = new WPFPokerGame.ViewModels.CardsViewModel();
+            this.DataContext = new WPFPokerGame.ViewModels.CardsViewModel();
+        }
+        public void Bind(ViewModels.CardsViewModel cardsViewModel)
+        {
+            DataContext = cardsViewModel;
         }
     }
 
