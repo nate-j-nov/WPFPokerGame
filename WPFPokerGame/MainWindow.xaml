@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:WPFPokerGame"
         xmlns:views="clr-namespace:WPFPokerGame.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" 
+        WindowState="Maximized"
+        WindowStyle="SingleBorderWindow">
 
     <Grid>
-        <views:CardsView x:Name="CardsViewControl"/>
+        <views:PlayerView x:Name="PlayerViewControl"/>
     </Grid>
     
 </Window>

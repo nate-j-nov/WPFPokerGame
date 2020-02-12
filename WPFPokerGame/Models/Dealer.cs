@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using WPFPokerGame.Models.Cards;
 using System.ComponentModel;
+using WPFPokerGame.Models;
 
 namespace WPFPokerGame.Models
 {
@@ -57,13 +58,13 @@ namespace WPFPokerGame.Models
             return Deck.Pop();
         }
 
-        //Deals hand to player
-        /*public void DealPlayerCards(Player player)
+        // Deals hand to player
+        public void DealPlayerCards(PlayerModel player)
         {
             for (int x = 0; x < 2; x++)
             {
-                player.Hand.Add(DrawCard());
+                player.DisplayHand.Add(DrawCard());
             }
-        }*/
+        }
     }
 }

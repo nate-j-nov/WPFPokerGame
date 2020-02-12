@@ -17,9 +17,9 @@ namespace WPFPokerGame.Views
         public CardsView()
         {
             InitializeComponent();
-            this.DataContext = new WPFPokerGame.ViewModels.CardsViewModel();
+            this.DataContext = new WPFPokerGame.ViewModels.ViewModel();
         }
-        public void Bind(ViewModels.CardsViewModel cardsViewModel)
+        public void Bind(ViewModels.ViewModel cardsViewModel)
         {
             DataContext = cardsViewModel;
         }

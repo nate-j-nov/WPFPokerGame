@@ -5,33 +5,61 @@ using WPFPokerGame.Models.Cards;
 using WPFPokerGame.Models;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
-
+using System.Collections.ObjectModel;
 
 namespace WPFPokerGame.Models
 {
-    public abstract class PlayerModel : ModelBase
+    public /*abstract <-- change later*/ partial class PlayerModel : INotifyPropertyChanged
     {
-        // Make these all get; set; properties or whatever their appopriate accesssor should be. 
-        public string PlayerName { get; }
-        public double Money = 102; //Amount of money given to a player at beginning
-        public List<Card> Hand { get; set; }
-        public double raiseAmount { get; set; }
-        public static List<Card> PlayerCommCards = new List<Card>(); //Copy of the community cards so that everyone can read them. 
-        public static double OtherPlayersBets { get; set; }
-        public WinningHands MyBestHand { get; set; }
-        public CardFace BestWinningFace { get; private set; }
-        public DecisionType PlayersDecision { get; protected set; }
+        private string _playerName;
+        public string PlayerName
+        {
+            get
+            {
+                return _playerName;
+            }
+            set
+            {
+                if (_playerName == value) return;
+                _playerName = value;
+                RaisePropertyChanged("PlayerName");
+            }
+        }
+
+        private double _money;
+        public double Money
+        {
+            get
+            {
+                return _money;
+            }
+            set
+            {
+                if (_money == value) return;
+                _money = value;
+                RaisePropertyChanged("Money");
+            }
+        }
+
+        /*public List<Card> Hand { get; set; }*/
         
+        
+        public ObservableCollection<Card> DisplayHand { get; set; } = new ObservableCollection<Card>();
+
+        public double RaiseAmount { get; set; } // Doesn't need to be shown at this point in development. 
+        public static List<Card> PlayerCommCards = new List<Card>(); // Doesn't need to be shown at this point in development. 
+        public static double OtherPlayersBets { get; set; }
+        public WinningHands MyBestHand { get; set; } // Doesn't need to be shown at this point in development. 
+        public CardFace BestWinningFace { get; private set; } // Doesn't need to be shown at this point in development. 
+        public DecisionType PlayersDecision { get; protected set; } // Doesn't need to be shown at this point of development. 
+
+
         public PlayerModel(string playerName)
         {
             PlayerName = playerName;
-            Hand = new List<Card>();
         }
 
-        public PlayerModel() { }
-
-        //Prints player's money
+        /*//Prints player's money
         public void PrintMoney()
         {
             Console.WriteLine("Money: {0:c}", Money);
@@ -54,16 +82,15 @@ namespace WPFPokerGame.Models
             {
                 Console.WriteLine(c.ToString());
             }
-        }
+        }*/
         //Verify's input from the player. 
         //class due to its role in testing ExecuteTurn() found in Round.cs
-        public abstract bool VerifyDecision();
-
-        public abstract Decision PerformTurn();
+        //public abstract bool VerifyDecision();
+        //public abstract Decision PerformTurn();
 
         //Print TotalCards in the player's hand and what's in the community cards.
         //Used for testing purposes
-        public void PrintTotalCards(IEnumerable<Card> communityCards)
+        /*public void PrintTotalCards(IEnumerable<Card> communityCards)
         {
             foreach (var h in Hand)
             {
@@ -73,15 +100,24 @@ namespace WPFPokerGame.Models
             {
                 Console.WriteLine(c);
             }
-        }
+        }*/
 
         public WinningHands GetBestHand()
         {
-            var combinedHand = new List<Card>();
-            combinedHand.AddRange(Hand);
+            var combinedHand = new ObservableCollection<Card>();
+            foreach(var c in DisplayHand)
+            {
+                combinedHand.Add(c);
+            }
 
             if (PlayerCommCards != null)
-                combinedHand.AddRange(PlayerCommCards);
+            {
+                foreach(var c in PlayerCommCards)
+                {
+                    combinedHand.Add(c);
+                }
+            }
+                
 
             if (HasRoyalFlush(combinedHand))
             {
@@ -239,6 +275,16 @@ namespace WPFPokerGame.Models
         public static void SetOtherPlayersBets(double otherBet)
         {
             OtherPlayersBets = otherBet;
+        }
+
+        // INotifyPropertyChanged Implementation
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void RaisePropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
         }
     }
 }

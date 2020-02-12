@@ -10,10 +10,7 @@ namespace WPFPokerGame.Models.Cards
         // Initializes and retrieves card's face and suit
 
         public bool IsFrontShowing { get; set; }
-        public bool IsChagned { get; set; }
-        
         public CardFace Face { get; set; }
-
         
         public CardSuit Suit { get; set; }
         
