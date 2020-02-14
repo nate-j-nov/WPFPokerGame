@@ -10,6 +10,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" 
              d:DesignWidth="300">
+    
+    <!--This will be added to the Player View since they'll have the cards-->
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type data:Card}">
             <StackPanel Orientation="Horizontal">
@@ -18,11 +20,17 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel Orientation="Horizontal">
-        <ListView x:Name="lvCards" ItemsSource="{Binding DisplayCards}"/>
+    <StackPanel Orientation="Vertical">
+        <ListView x:Name="lvCards" ItemsSource="{Binding DisplayCards}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
         <Button x:Name="btnShuffle" Content="Shuffle" Command="{Binding Path=DataContext.ShuffleCardsCmd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                 CommandParameter="{Binding ElementName=lvCards, Path=ItemsSource}"
-                    HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Margin="0,2,0,0"/>
+                    HorizontalAlignment="Right" VerticalAlignment="Top" Width="80"/>
     </StackPanel>
 
 </UserControl>

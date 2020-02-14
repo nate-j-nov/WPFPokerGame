@@ -67,11 +67,14 @@
     <Compile Include="Models\Decision.cs" />
     <Compile Include="Models\DecisionType.cs" />
     <Compile Include="Models\ModelBase.cs" />
-    <Compile Include="Models\Player\Player.cs" />
+    <Compile Include="Models\Player\PlayerModel.cs" />
     <Compile Include="Models\WinningHands.cs" />
-    <Compile Include="ViewModels\CardsViewModel.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlayerView.xaml.cs">
+      <DependentUpon>PlayerView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -86,6 +89,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\CardsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlayerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

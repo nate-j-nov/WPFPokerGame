@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using WPFPokerGame.Models.Cards;
 using WPFPokerGame.Models;
-using WPFPokerGame.ViewModels;
 
 namespace WPFPokerGame.Commands
 {
@@ -25,8 +24,7 @@ namespace WPFPokerGame.Commands
                 dealer.ShuffleDeck();
 
                 List<Card> displayCards = new List<Card>();
-                
-                for (int x = 0; x <= 2; x++)
+                for (int x = 0; x < 2; x++)
                 {
                     displayCards.Add(dealer.Deck.Pop());
                 }

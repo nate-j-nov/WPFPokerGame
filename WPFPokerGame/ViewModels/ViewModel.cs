@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows.Input;
 using WPFPokerGame.Models.Cards;
 using WPFPokerGame.Models;
@@ -10,43 +7,40 @@ using WPFPokerGame.Commands;
 
 namespace WPFPokerGame.ViewModels
 {
-    public class CardsViewModel
+    public class ViewModel
     {
         Dealer dealer = new Dealer();
-
+        PlayerModel nate = new PlayerModel("Nate");
+        ObservableCollection<PlayerModel> Players = new ObservableCollection<PlayerModel>();
         
-        public CardsViewModel()
+        public ObservableCollection<Card> DisplayCards { get; set; } = new ObservableCollection<Card>();
+        public ViewModel()
         {
-            LoadCards();
-            //ICommand _shuffleCardsCommand = null;
-            /*ShuffleCardsCmd = new ShuffleCardsCommand();*/
+            Players.Add(nate);
+            PopulateDisplayCards();
+            dealer.DealPlayerCards(nate);
         }
-
-        // Properties
-        public ObservableCollection<Card> DisplayCards { get; } = new ObservableCollection<Card>();
-
-        public void LoadCards()
+        
+        /*public void LoadCards()
         {
             List<Card> displayCardsToObservable = PopulateDisplayCards();
-
             foreach (var c in displayCardsToObservable)
                 DisplayCards.Add(c);
-        }
+        }*/
 
         private ICommand _shuffleCardsCommand = null;
         public ICommand ShuffleCardsCmd => _shuffleCardsCommand ?? (_shuffleCardsCommand = new ShuffleCardsCommand());
-        public List<Card> PopulateDisplayCards()
+        public void PopulateDisplayCards()
         {
             dealer.PopulateDeck();
             dealer.ShuffleDeck();
+            //List<Card> displayCards = new List<Card>();
 
-            List<Card> displayCards = new List<Card>();
-
-            for (int x = 0; x <= 2; x++)
+            /*for (int x = 0; x < 2; x++)
             {
                 displayCards.Add(dealer.Deck.Pop());
             }
-            return displayCards;
+            return displayCards;*/
         }
     }
 }

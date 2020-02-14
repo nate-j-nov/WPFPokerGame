@@ -12,24 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WPFPokerGame.ViewModels;
 
-namespace WPFPokerGame
+namespace WPFPokerGame.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PlayerView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PlayerView : UserControl
     {
-        public MainWindow()
+        public PlayerView()
         {
             InitializeComponent();
-        }
-
-        private void ViewControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            ViewModel ViewModelObject = new ViewModel();
-            PlayerViewControl.DataContext = ViewModelObject;
+            this.DataContext = new WPFPokerGame.ViewModels.ViewModel();
         }
     }
 }
