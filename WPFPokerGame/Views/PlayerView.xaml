@@ -16,10 +16,40 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel Orientation="Vertical">
-        <!--<ListView x:Name="lvCards" ItemsSource="{Binding DisplayHand}" ItemTemplate="{StaticResource HandTemplate}">-->
+    <StackPanel>
         <ItemsControl ItemsSource="{Binding Path=Players}">
-            <TextBlock Text="{Binding Path=PlayerName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,4,5"/>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="tbName" Text="{Binding Path=PlayerName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                               FontSize="30" FontWeight="Bold" Margin="0,5,4,5"
+                               Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+                        <TextBlock x:Name="tbMoney" Text="{Binding Path=Money, StringFormat={}{0: $#.##}}" 
+                                   Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                        <ListView x:Name="lvHand" ItemsSource="{Binding Hand}" ItemTemplate="{StaticResource HandTemplate}"
+                                  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
         </ItemsControl>
     </StackPanel>
 

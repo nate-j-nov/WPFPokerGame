@@ -44,7 +44,7 @@ namespace WPFPokerGame.Models
         /*public List<Card> Hand { get; set; }*/
         
         
-        public ObservableCollection<Card> DisplayHand { get; set; } = new ObservableCollection<Card>();
+        public ObservableCollection<Card> Hand { get; set; } = new ObservableCollection<Card>();
 
         public double RaiseAmount { get; set; } // Doesn't need to be shown at this point in development. 
         public static List<Card> PlayerCommCards = new List<Card>(); // Doesn't need to be shown at this point in development. 
@@ -56,7 +56,8 @@ namespace WPFPokerGame.Models
 
         public PlayerModel(string playerName)
         {
-            PlayerName = playerName;
+            _playerName = playerName;
+            _money = 102;
         }
 
         /*//Prints player's money
@@ -105,7 +106,7 @@ namespace WPFPokerGame.Models
         public WinningHands GetBestHand()
         {
             var combinedHand = new ObservableCollection<Card>();
-            foreach(var c in DisplayHand)
+            foreach(var c in Hand)
             {
                 combinedHand.Add(c);
             }
