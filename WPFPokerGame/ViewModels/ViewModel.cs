@@ -11,7 +11,7 @@ namespace WPFPokerGame.ViewModels
     {
         Dealer dealer = new Dealer();
         PlayerModel nate = new PlayerModel("Nate");
-        ObservableCollection<PlayerModel> Players = new ObservableCollection<PlayerModel>();
+        public ObservableCollection<PlayerModel> Players { get; set; } = new ObservableCollection<PlayerModel>();
         
         public ObservableCollection<Card> DisplayCards { get; set; } = new ObservableCollection<Card>();
         public ViewModel()

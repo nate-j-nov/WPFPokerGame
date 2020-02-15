@@ -63,7 +63,7 @@ namespace WPFPokerGame.Models
         {
             for (int x = 0; x < 2; x++)
             {
-                player.DisplayHand.Add(DrawCard());
+                player.Hand.Add(DrawCard());
             }
         }
     }
