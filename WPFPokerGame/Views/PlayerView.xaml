@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="HandTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Path=FullCardName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0, 5, 4, 5"/>
+                <Image Source="{Binding Path=FrontCardImage.Source}" Width="80" Height="100" Margin="5,5,5,5"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
@@ -32,7 +32,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="tbName" Text="{Binding Path=PlayerName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBlock x:Name="tbName" Text="{Binding Path=PlayerName, UpdateSourceTrigger=PropertyChanged}" 
                                FontSize="30" FontWeight="Bold" Margin="0,5,4,5"
                                Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 
