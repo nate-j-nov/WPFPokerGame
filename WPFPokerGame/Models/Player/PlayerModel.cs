@@ -60,49 +60,6 @@ namespace WPFPokerGame.Models
             _money = 102;
         }
 
-        /*//Prints player's money
-        public void PrintMoney()
-        {
-            Console.WriteLine("Money: {0:c}", Money);
-        }
-
-        //Prints player's hand
-        public void PrintSortedHand()
-        {
-            var sortedHand = Hand;
-            sortedHand = sortedHand.OrderByDescending(card => card.Face).ToList();
-            foreach (var c in sortedHand)
-            {
-                Console.WriteLine(c.ToString());
-            }
-        }
-
-        public void PrintPlayerHand()
-        {
-            foreach (var c in Hand)
-            {
-                Console.WriteLine(c.ToString());
-            }
-        }*/
-        //Verify's input from the player. 
-        //class due to its role in testing ExecuteTurn() found in Round.cs
-        //public abstract bool VerifyDecision();
-        //public abstract Decision PerformTurn();
-
-        //Print TotalCards in the player's hand and what's in the community cards.
-        //Used for testing purposes
-        /*public void PrintTotalCards(IEnumerable<Card> communityCards)
-        {
-            foreach (var h in Hand)
-            {
-                Console.WriteLine(h);
-            }
-            foreach (var c in communityCards)
-            {
-                Console.WriteLine(c);
-            }
-        }*/
-
         public WinningHands GetBestHand()
         {
             var combinedHand = new ObservableCollection<Card>();
