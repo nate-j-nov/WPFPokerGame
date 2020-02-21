@@ -10,9 +10,6 @@ using System.Windows.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
-
-
-
 namespace WPFPokerGame.Models.Cards
 {
     //public class CardModel { }
@@ -161,7 +158,7 @@ namespace WPFPokerGame.Models.Cards
         {
             int nSuit = (int)suit;
             int nFace = (int)face;
-            int libraryIndex = 1 + nSuit + (nFace == 12 ? 0 : nFace + 1);
+            int libraryIndex = 1 + nFace + (nSuit == 0 ? 0 : nSuit * 13);
             return GetBitmapSource(libraryIndex);
         }
         
