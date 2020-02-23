@@ -7,51 +7,50 @@
              xmlns:playerdata="clr-namespace:WPFPokerGame.Models"
              xmlns:local="clr-namespace:WPFPokerGame.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"> 
+             d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <DataTemplate x:Key="HandTemplate">
             <StackPanel Orientation="Horizontal">
                 <Image Source="{Binding Path=FrontCardImage.Source}" Width="80" Height="100" Margin="5,5,5,5"/>
-                <TextBlock Text="{Binding FullCardName}"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel>
-        <ItemsControl ItemsSource="{Binding Path=Players}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="tbName" Text="{Binding Path=PlayerName, UpdateSourceTrigger=PropertyChanged}" 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel DataContext="{Binding Path=nate}" Grid.Row="2" Grid.Column="1">
+
+            <TextBlock x:Name="tbName" Text="{Binding Path=PlayerName, UpdateSourceTrigger=PropertyChanged}" 
                                FontSize="30" FontWeight="Bold" Margin="0,5,4,5"
-                               Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                               VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
 
-                        <TextBlock x:Name="tbMoney" Text="{Binding Path=Money, StringFormat={}{0: $#.##}}" 
-                                   Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="tbMoney" Text="{Binding Path=Money, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0: $#.##}}" 
+                                   VerticalAlignment="Top" HorizontalAlignment="Center"/>
 
-                        <ListView x:Name="lvHand" ItemsSource="{Binding Hand}" ItemTemplate="{StaticResource HandTemplate}"
-                                  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                        </ListView>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </StackPanel>
+            <ListView x:Name="lvHand" ItemsSource="{Binding Path=Hand, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource HandTemplate}"
+                                  VerticalAlignment="Bottom" HorizontalAlignment="Center" BorderThickness="0">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+
+
+        </StackPanel>
+
+    </Grid>
 
 </UserControl>

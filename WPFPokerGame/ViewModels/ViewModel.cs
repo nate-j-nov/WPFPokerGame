@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WPFPokerGame.Models.Cards;
 using WPFPokerGame.Models;
+using WPFPokerGame.Models.Player;
 using WPFPokerGame.Commands;
 
 namespace WPFPokerGame.ViewModels
@@ -10,13 +11,23 @@ namespace WPFPokerGame.ViewModels
     public class ViewModel
     {
         Dealer dealer = new Dealer();
-        PlayerModel nate = new PlayerModel("Nate");
-        public ObservableCollection<PlayerModel> Players { get; set; } = new ObservableCollection<PlayerModel>();
         
-        public ObservableCollection<Card> DisplayCards { get; set; } = new ObservableCollection<Card>();
+        // Create players
+        public HumanPlayer nate { get; set; } = new HumanPlayer("Nate");
+        public ComputerPlayer jake = new ComputerPlayer("Jake");
+        public ComputerPlayer evan = new ComputerPlayer("Evan");
+        public ComputerPlayer chad = new ComputerPlayer("Chad");
+
+        public ObservableCollection<PlayerModel> PlayersInGame { get; set; } = new ObservableCollection<PlayerModel>();
+
         public ViewModel()
         {
-            Players.Add(nate);
+            // Add players to the ObservableCollection
+            PlayersInGame.Add(nate);
+            PlayersInGame.Add(jake);
+            PlayersInGame.Add(evan);
+            PlayersInGame.Add(evan);
+            
             PopulateDisplayCards();
             dealer.DealPlayerCards(nate);
         }
