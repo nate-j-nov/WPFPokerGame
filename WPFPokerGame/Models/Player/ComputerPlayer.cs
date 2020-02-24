@@ -11,6 +11,7 @@ namespace WPFPokerGame.Models.Player
         {
 
         }
+
         public Decision PerformTurn(int flips)
         {
             var compChoice = GetDecisionNumber(out double _raiseAmount, flips);

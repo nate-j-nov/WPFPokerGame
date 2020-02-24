@@ -11,11 +11,30 @@
     <UserControl.Resources>
         <DataTemplate x:Key="HandTemplate">
             <StackPanel Orientation="Horizontal">
-                <Image Source="{Binding Path=FrontCardImage.Source}" Width="80" Height="100" Margin="5,5,5,5"/>
+                <Image Source="{Binding Path=FrontCardImage.Source}" Height="120" Width="100" Margin="5,5,5,5"/>
             </StackPanel>
         </DataTemplate>
-    </UserControl.Resources>
+        
+        <ControlTemplate x:Key="PlayerTemplate">
+            <StackPanel>
+                <TextBlock x:Name="tbName" Text="{Binding Path=PlayerName, UpdateSourceTrigger=PropertyChanged}" 
+                               FontSize="35" FontWeight="Bold" Margin="0,5,4,5" 
+                               VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
 
+                <TextBlock x:Name="tbMoney" Text="{Binding Path=Money, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0: $#.##}}" 
+                                   VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+
+                <ListView x:Name="lvHand" ItemsSource="{Binding Path=Hand, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource HandTemplate}"
+                                  VerticalAlignment="Bottom" HorizontalAlignment="Center" BorderThickness="0">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -30,25 +49,22 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel DataContext="{Binding Path=nate}" Grid.Row="2" Grid.Column="1">
+        <StackPanel DataContext="{Binding Path=nate}" Grid.Row="2" Grid.Column="1" 
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="15"
+                    Background="AliceBlue"> 
+            <Control Template="{StaticResource PlayerTemplate}"/>
+        </StackPanel>
 
-            <TextBlock x:Name="tbName" Text="{Binding Path=PlayerName, UpdateSourceTrigger=PropertyChanged}" 
-                               FontSize="30" FontWeight="Bold" Margin="0,5,4,5"
-                               VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+        <StackPanel DataContext="{Binding Path=jake}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15">
+            <Control Template="{StaticResource PlayerTemplate}"/>
+        </StackPanel>
 
-            <TextBlock x:Name="tbMoney" Text="{Binding Path=Money, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0: $#.##}}" 
-                                   VerticalAlignment="Top" HorizontalAlignment="Center"/>
-
-            <ListView x:Name="lvHand" ItemsSource="{Binding Path=Hand, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource HandTemplate}"
-                                  VerticalAlignment="Bottom" HorizontalAlignment="Center" BorderThickness="0">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
-
-
+        <StackPanel DataContext="{Binding Path=evan}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="15">
+            <Control Template="{StaticResource PlayerTemplate}"/>
+        </StackPanel>
+        
+        <StackPanel DataContext="{Binding Path=chad}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="15">
+            <Control Template="{StaticResource PlayerTemplate}"/>
         </StackPanel>
 
     </Grid>
