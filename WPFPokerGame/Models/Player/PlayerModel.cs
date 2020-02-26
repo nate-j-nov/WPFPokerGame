@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace WPFPokerGame.Models
 {
-    public /*abstract <-- change later*/ partial class PlayerModel : INotifyPropertyChanged
+    public abstract class PlayerModel : INotifyPropertyChanged
     {
         private string _playerName;
         public string PlayerName
@@ -57,6 +57,11 @@ namespace WPFPokerGame.Models
         public PlayerModel(string playerName)
         {
             _playerName = playerName;
+            _money = 102;
+        }
+
+        public PlayerModel()
+        {
             _money = 102;
         }
 
@@ -234,6 +239,10 @@ namespace WPFPokerGame.Models
         {
             OtherPlayersBets = otherBet;
         }
+
+        public abstract bool VerifyDecision();
+
+        public abstract Decision PerformTurn();
 
         // INotifyPropertyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;
