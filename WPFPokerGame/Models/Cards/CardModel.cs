@@ -17,7 +17,21 @@ namespace WPFPokerGame.Models.Cards
     {
         // Initializes and retrieves card's face and suit
 
-        public bool IsFrontShowing { get; set; }
+        private bool _isFrontShowing;
+        public bool IsFrontShowing 
+        {
+            get
+            {
+                return _isFrontShowing;
+            }
+            set
+            {
+                if (_isFrontShowing == value) return;
+                _isFrontShowing = value;
+                RaisePropertyChanged("IsFrontShowing");
+                RaisePropertyChanged("CardDisplay");
+            }
+        }
 
         private Image _frontCardImage = new Image();
         public Image FrontCardImage
@@ -30,13 +44,12 @@ namespace WPFPokerGame.Models.Cards
             {
                 if (_frontCardImage == value) return;
                 _frontCardImage = value;
-                _frontCardImage.Height = 40;
-                _frontCardImage.Width = 32;
                 RaisePropertyChanged("FrontCardImage");
+                RaisePropertyChanged("CardDisplay");
             }
         }
 
-        private Image _backCardImage;
+        private Image _backCardImage = new Image();
         public Image BackCardImage
         {
             get
@@ -47,12 +60,22 @@ namespace WPFPokerGame.Models.Cards
             {
                 if (_backCardImage == value) return;
                 _backCardImage = value;
-                _backCardImage.Height = 40;
-                _backCardImage.Width = 32;
                 RaisePropertyChanged("BackCardImage");
+                RaisePropertyChanged("CardDisplay");
             }
         }
 
+        
+        public Image CardDisplay
+        {
+            get
+            {
+                if (IsFrontShowing)
+                    return _frontCardImage;
+                else
+                    return _backCardImage;
+            }
+        }
 
         private CardFace _face;
         public CardFace Face
@@ -99,9 +122,14 @@ namespace WPFPokerGame.Models.Cards
         {
             _face = face;
             _suit = suit;
-            IsFrontShowing = true;
+            _isFrontShowing = true;
             _frontCardImage.Source = GetFrontCardImage(this.Face, this.Suit);
+            _backCardImage.Source = GetBackCardImage();
+        }
 
+        public void SetFrontShowingToFalse()
+        {
+            IsFrontShowing = false; 
         }
 
         //Prints the card

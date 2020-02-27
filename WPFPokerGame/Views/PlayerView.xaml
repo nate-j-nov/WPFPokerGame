@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="CardTemplate">
             <StackPanel Orientation="Horizontal">
-                <Image Source="{Binding Path=FrontCardImage.Source}" Height="120" Width="100" Margin="5,5,5,5"/>
+                <Image Source="{Binding Path=CardDisplay.Source}" Height="120" Width="100" Margin="5,5,5,5"/>
             </StackPanel>
         </DataTemplate>
         
