@@ -12,7 +12,6 @@ using System.Windows.Controls;
 
 namespace WPFPokerGame.Models.Cards
 {
-    //public class CardModel { }
     public sealed class Card : INotifyPropertyChanged
     {
         // Initializes and retrieves card's face and suit
