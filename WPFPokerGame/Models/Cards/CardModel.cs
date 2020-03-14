@@ -12,12 +12,25 @@ using System.Windows.Controls;
 
 namespace WPFPokerGame.Models.Cards
 {
-    //public class CardModel { }
     public sealed class Card : INotifyPropertyChanged
     {
         // Initializes and retrieves card's face and suit
 
-        public bool IsFrontShowing { get; set; }
+        private bool _isFrontShowing;
+        public bool IsFrontShowing
+        {
+            get
+            {
+                return _isFrontShowing;
+            }
+            set
+            {
+                if (_isFrontShowing == value) return;
+                _isFrontShowing = value;
+                RaisePropertyChanged("IsFrontShowing");
+                RaisePropertyChanged("CardDisplay");
+            }
+        }
 
         private Image _frontCardImage = new Image();
         public Image FrontCardImage
@@ -30,13 +43,12 @@ namespace WPFPokerGame.Models.Cards
             {
                 if (_frontCardImage == value) return;
                 _frontCardImage = value;
-                _frontCardImage.Height = 40;
-                _frontCardImage.Width = 32;
                 RaisePropertyChanged("FrontCardImage");
+                RaisePropertyChanged("CardDisplay");
             }
         }
 
-        private Image _backCardImage;
+        private Image _backCardImage = new Image();
         public Image BackCardImage
         {
             get
@@ -47,12 +59,22 @@ namespace WPFPokerGame.Models.Cards
             {
                 if (_backCardImage == value) return;
                 _backCardImage = value;
-                _backCardImage.Height = 40;
-                _backCardImage.Width = 32;
                 RaisePropertyChanged("BackCardImage");
+                RaisePropertyChanged("CardDisplay");
             }
         }
 
+
+        public Image CardDisplay
+        {
+            get
+            {
+                if (IsFrontShowing)
+                    return _frontCardImage;
+                else
+                    return _backCardImage;
+            }
+        }
 
         private CardFace _face;
         public CardFace Face
@@ -99,9 +121,14 @@ namespace WPFPokerGame.Models.Cards
         {
             _face = face;
             _suit = suit;
-            IsFrontShowing = true;
+            _isFrontShowing = true;
             _frontCardImage.Source = GetFrontCardImage(this.Face, this.Suit);
+            _backCardImage.Source = GetBackCardImage();
+        }
 
+        public void SetFrontShowingToFalse()
+        {
+            IsFrontShowing = false;
         }
 
         //Prints the card
@@ -114,14 +141,14 @@ namespace WPFPokerGame.Models.Cards
 
         // Put cards into 2D array: suit, rank (0-12 => 2-A);
 
-       
+
         Func<int, BitmapSource> GetBitmapSource = (resource) =>
         {
             // Load the Bitmap library.
             IntPtr cardLibrary = LoadLibraryEx("C:\\Users\\natej\\Documents\\C#\\WPFPokerGame\\WPFPokerGame\\WPFPokerGame\\Cards.Dll", IntPtr.Zero, LOAD_LIBRARY_AS_DATAFILE);
             if (cardLibrary == IntPtr.Zero)
                 throw new FileNotFoundException("Couldn't find Cards.dll");
-            
+
             // We first load the bitmap as a native resource, and get a ptr to it. 
             var bitmapResource = LoadBitmap(cardLibrary, resource);
 
@@ -161,7 +188,7 @@ namespace WPFPokerGame.Models.Cards
             int libraryIndex = 1 + nFace + (nSuit == 0 ? 0 : nSuit * 13);
             return GetBitmapSource(libraryIndex);
         }
-        
+
         public BitmapSource GetBackCardImage()
         {
             return GetBitmapSource(60);

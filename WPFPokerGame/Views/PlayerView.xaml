@@ -9,9 +9,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <DataTemplate x:Key="HandTemplate">
+        <DataTemplate x:Key="CardTemplate">
             <StackPanel Orientation="Horizontal">
-                <Image Source="{Binding Path=FrontCardImage.Source}" Height="120" Width="100" Margin="5,5,5,5"/>
+                <Image Source="{Binding Path=CardDisplay.Source}" Height="120" Width="100" Margin="5,5,5,5"/>
             </StackPanel>
         </DataTemplate>
         
@@ -24,7 +24,7 @@
                 <TextBlock x:Name="tbMoney" Text="{Binding Path=Money, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0: $#.##}}" 
                                    VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
 
-                <ListView x:Name="lvHand" ItemsSource="{Binding Path=Hand, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource HandTemplate}"
+                <ListView x:Name="lvHand" ItemsSource="{Binding Path=Hand, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource CardTemplate}"
                                   VerticalAlignment="Bottom" HorizontalAlignment="Center" BorderThickness="0">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -44,9 +44,9 @@
 
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel DataContext="{Binding Path=nate}" Grid.Row="2" Grid.Column="1" 
@@ -66,6 +66,15 @@
         <StackPanel DataContext="{Binding Path=chad}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="15">
             <Control Template="{StaticResource PlayerTemplate}"/>
         </StackPanel>
+        
+        <ListView x:Name="lvCommunityCards" ItemsSource="{Binding CommunityCards, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource CardTemplate}"
+                  Grid.Row="1" Grid.Column="1" BorderThickness="0" Background="Green" HorizontalAlignment="Center">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
 
     </Grid>
 

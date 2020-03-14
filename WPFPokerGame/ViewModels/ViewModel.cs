@@ -19,6 +19,7 @@ namespace WPFPokerGame.ViewModels
         public ComputerPlayer chad { get; set; } = new ComputerPlayer("Chad");
 
         public ObservableCollection<PlayerModel> PlayersInGame { get; set; } = new ObservableCollection<PlayerModel>();
+        public ObservableCollection<Card> CommunityCards { get; set; } = new ObservableCollection<Card>();
 
         public ViewModel()
         {
@@ -33,8 +34,27 @@ namespace WPFPokerGame.ViewModels
             {
                 dealer.DealPlayerCards(player);
             }
+            DrawCommunityCards(5);
         }
-        
+
+        // Methods
+
+        /// <summary>
+        /// Draw the community cards to be displayed on the table. 
+        /// Creates temporary card, and puts into the ObservableCollection<Card> CommunityCards 
+        /// as well as the static PlayerCommCards parameter in PlayerModel that is used so all players know what they have. 
+        /// </summary>
+        /// <param name="numCards"></param>
+        public void DrawCommunityCards(int numCards)
+        {
+            for (int i = 0; i < numCards; i++)
+            {
+                Card tempCard = dealer.DrawCard();
+                CommunityCards.Add(tempCard);
+                PlayerModel.PlayerCommCards.Add(tempCard);
+            }
+        }
+
         private ICommand _shuffleCardsCommand = null;
         public ICommand ShuffleCardsCmd => _shuffleCardsCommand ?? (_shuffleCardsCommand = new ShuffleCardsCommand());
         public void PopulateDisplayCards()

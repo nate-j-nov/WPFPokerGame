@@ -61,12 +61,16 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\CommandBasePro.cs" />
     <Compile Include="Commands\ShuffleCommand.cs" />
+    <Compile Include="Models\Loan.cs" />
+    <Compile Include="Models\LoanShark.cs" />
     <Compile Include="Models\Decision.cs" />
     <Compile Include="Models\DecisionType.cs" />
+    <Compile Include="Models\Game.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Player\ComputerPlayer.cs" />
     <Compile Include="Models\Player\HumanPlayer.cs" />
     <Compile Include="Models\Player\PlayerModel.cs" />
+    <Compile Include="Models\Round.cs" />
     <Compile Include="Models\WinningHands.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="Views\CardsView.xaml.cs">

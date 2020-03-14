@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using WPFPokerGame.Models.Cards;
 using System.ComponentModel;
 using WPFPokerGame.Models;
+using WPFPokerGame.Models.Player;
 
 namespace WPFPokerGame.Models
 {
@@ -64,6 +65,12 @@ namespace WPFPokerGame.Models
             for (int x = 0; x < 2; x++)
             {
                 player.Hand.Add(DrawCard());
+            }
+
+            if (player is ComputerPlayer)
+            {
+                foreach (var c in player.Hand)
+                    c.SetFrontShowingToFalse();
             }
         }
     }

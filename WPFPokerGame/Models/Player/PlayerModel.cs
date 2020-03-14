@@ -42,12 +42,12 @@ namespace WPFPokerGame.Models
         }
 
         /*public List<Card> Hand { get; set; }*/
-        
-        
+
+
         public ObservableCollection<Card> Hand { get; set; } = new ObservableCollection<Card>();
 
         public double RaiseAmount { get; set; } // Doesn't need to be shown at this point in development. 
-        public static List<Card> PlayerCommCards = new List<Card>(); // Doesn't need to be shown at this point in development. 
+        public static List<Card> PlayerCommCards { get; set; } = new List<Card>(); // Doesn't need to be shown at this point in development. 
         public static double OtherPlayersBets { get; set; }
         public WinningHands MyBestHand { get; set; } // Doesn't need to be shown at this point in development. 
         public CardFace BestWinningFace { get; private set; } // Doesn't need to be shown at this point in development. 
@@ -68,19 +68,19 @@ namespace WPFPokerGame.Models
         public WinningHands GetBestHand()
         {
             var combinedHand = new ObservableCollection<Card>();
-            foreach(var c in Hand)
+            foreach (var c in Hand)
             {
                 combinedHand.Add(c);
             }
 
             if (PlayerCommCards != null)
             {
-                foreach(var c in PlayerCommCards)
+                foreach (var c in PlayerCommCards)
                 {
                     combinedHand.Add(c);
                 }
             }
-                
+
 
             if (HasRoyalFlush(combinedHand))
             {
