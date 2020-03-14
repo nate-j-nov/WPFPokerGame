@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace WPFPokerGame.Models
 {
-    class Round
+    class Round : 
     {
         // Properties
         private double _ante = 2.00;
