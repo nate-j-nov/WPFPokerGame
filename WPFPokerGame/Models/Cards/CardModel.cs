@@ -18,8 +18,6 @@ namespace WPFPokerGame.Models.Cards
 
         private bool _isFrontShowing;
 
-        public bool IsFrontShowing 
-
         public bool IsFrontShowing
         {
             get
@@ -68,17 +66,6 @@ namespace WPFPokerGame.Models.Cards
         }
 
         
-        public Image CardDisplay
-        {
-            get
-            {
-                if (IsFrontShowing)
-                    return _frontCardImage;
-                else
-                    return _backCardImage;
-            }
-        }
-
         public Image CardDisplay
         {
             get

@@ -11,12 +11,14 @@
     <UserControl.Background>
         <ImageBrush ImageSource="C:\Users\natej\Documents\C#\WPFPokerGame\WPFPokerGame\WPFPokerGame\Background.jpg" Stretch="Fill"/>
     </UserControl.Background>
+   
     <UserControl.Resources>
         <DataTemplate x:Key="CardTemplate">
             <StackPanel Orientation="Horizontal">
                 <Image Source="{Binding Path=CardDisplay.Source}" Height="120" Width="100" Margin="5,5,5,5"/>
             </StackPanel>
         </DataTemplate>
+        
         
         <ControlTemplate x:Key="PlayerTemplate">
             <StackPanel>
@@ -30,8 +32,6 @@
                            Foreground="Lime" FontSize="20"/>
 
                 <ListView x:Name="lvHand" ItemsSource="{Binding Path=Hand, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource CardTemplate}"
-
-                                  VerticalAlignment="Bottom" HorizontalAlignment="Center" BorderThickness="0">
                                   VerticalAlignment="Bottom" HorizontalAlignment="Center" BorderThickness="0" Background="Transparent">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -83,14 +83,6 @@
             </ListView.ItemsPanel>
         </ListView>
 
-        <ListView x:Name="lvCommunityCards" ItemsSource="{Binding CommunityCards, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource CardTemplate}"
-                  Grid.Row="1" Grid.Column="1" BorderThickness="0" Background="Green" HorizontalAlignment="Center">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
 
     </Grid>
 
