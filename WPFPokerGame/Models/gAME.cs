@@ -8,7 +8,7 @@ using WPFPokerGame.Models.Player;
 
 namespace WPFPokerGame.Models
 {
-    class Game : INotifyPropertyChanged
+    class Game
     {
         // Properties
         public List<PlayerModel> Players { get; }
@@ -74,17 +74,6 @@ namespace WPFPokerGame.Models
         {
             // Needs to be implemented. 
             throw new NotImplementedException();
-        }
-        
-        
-        // INotifyPropertyChanged Implementation
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void RaisePropertyChanged(string property)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
         }
     }
 }

@@ -29,7 +29,7 @@ namespace WPFPokerGame
         private void ViewControl_Loaded(object sender, RoutedEventArgs e)
         {
             ViewModel ViewModelObject = new ViewModel();
-            PlayerViewControl.DataContext = ViewModelObject;
+            GameViewControl.DataContext = ViewModelObject;
         }
     }
 }
