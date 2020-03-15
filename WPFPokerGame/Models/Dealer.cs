@@ -68,6 +68,8 @@ namespace WPFPokerGame.Models
             }
             
             if(player is ComputerPlayer)
+
+            if (player is ComputerPlayer)
             {
                 foreach (var c in player.Hand)
                     c.SetFrontShowingToFalse();

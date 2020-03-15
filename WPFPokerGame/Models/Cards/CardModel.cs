@@ -17,7 +17,10 @@ namespace WPFPokerGame.Models.Cards
         // Initializes and retrieves card's face and suit
 
         private bool _isFrontShowing;
+
         public bool IsFrontShowing 
+
+        public bool IsFrontShowing
         {
             get
             {
@@ -65,6 +68,17 @@ namespace WPFPokerGame.Models.Cards
         }
 
         
+        public Image CardDisplay
+        {
+            get
+            {
+                if (IsFrontShowing)
+                    return _frontCardImage;
+                else
+                    return _backCardImage;
+            }
+        }
+
         public Image CardDisplay
         {
             get
@@ -128,7 +142,10 @@ namespace WPFPokerGame.Models.Cards
 
         public void SetFrontShowingToFalse()
         {
+
             IsFrontShowing = false; 
+
+            IsFrontShowing = false;
         }
 
         //Prints the card
@@ -141,14 +158,14 @@ namespace WPFPokerGame.Models.Cards
 
         // Put cards into 2D array: suit, rank (0-12 => 2-A);
 
-       
+
         Func<int, BitmapSource> GetBitmapSource = (resource) =>
         {
             // Load the Bitmap library.
             IntPtr cardLibrary = LoadLibraryEx("C:\\Users\\natej\\Documents\\C#\\WPFPokerGame\\WPFPokerGame\\WPFPokerGame\\Cards.Dll", IntPtr.Zero, LOAD_LIBRARY_AS_DATAFILE);
             if (cardLibrary == IntPtr.Zero)
                 throw new FileNotFoundException("Couldn't find Cards.dll");
-            
+
             // We first load the bitmap as a native resource, and get a ptr to it. 
             var bitmapResource = LoadBitmap(cardLibrary, resource);
 
@@ -188,7 +205,7 @@ namespace WPFPokerGame.Models.Cards
             int libraryIndex = 1 + nFace + (nSuit == 0 ? 0 : nSuit * 13);
             return GetBitmapSource(libraryIndex);
         }
-        
+
         public BitmapSource GetBackCardImage()
         {
             return GetBitmapSource(60);

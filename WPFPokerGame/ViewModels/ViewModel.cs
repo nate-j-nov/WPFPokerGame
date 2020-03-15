@@ -35,7 +35,6 @@ namespace WPFPokerGame.ViewModels
                 dealer.DealPlayerCards(player);
             }
             DrawCommunityCards(5);
-            
         }
 
         // Methods

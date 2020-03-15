@@ -11,7 +11,7 @@
         WindowStyle="SingleBorderWindow">
 
     <Grid>
-        <views:PlayerView x:Name="PlayerViewControl" Loaded="ViewControl_Loaded"/>
+        <views:GameView x:Name="GameViewControl" Loaded="ViewControl_Loaded"/>
     </Grid>
     
 </Window>

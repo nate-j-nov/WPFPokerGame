@@ -7,9 +7,9 @@ namespace WPFPokerGame.Models.Player
     {
         public bool HasALoan { get; set; }
         int userChoice;
-        //public bool InDebt;
+        public bool InDebt;
         public double DebtOutstanding { get; set; }
-        // public Loan PlayerLoan = null;
+        public Loan PlayerLoan = null;
         
         public HumanPlayer(string playerName) : base(playerName)
         {
