@@ -76,7 +76,6 @@ namespace WPFPokerGame.Models.Cards
                     return _backCardImage;
             }
         }
-
         private CardFace _face;
         public CardFace Face
         {

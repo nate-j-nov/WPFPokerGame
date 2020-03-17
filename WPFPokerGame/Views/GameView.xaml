@@ -11,15 +11,15 @@
     <UserControl.Background>
         <ImageBrush ImageSource="C:\Users\natej\Documents\C#\WPFPokerGame\WPFPokerGame\WPFPokerGame\Background.jpg" Stretch="Fill"/>
     </UserControl.Background>
-   
+
     <UserControl.Resources>
         <DataTemplate x:Key="CardTemplate">
             <StackPanel Orientation="Horizontal">
                 <Image Source="{Binding Path=CardDisplay.Source}" Height="120" Width="100" Margin="5,5,5,5"/>
             </StackPanel>
         </DataTemplate>
-        
-        
+
+
         <ControlTemplate x:Key="PlayerTemplate">
             <StackPanel>
                 <TextBlock x:Name="tbName" Text="{Binding Path=PlayerName, UpdateSourceTrigger=PropertyChanged}" 
@@ -58,7 +58,7 @@
 
         <StackPanel DataContext="{Binding Path=nate}" Grid.Row="2" Grid.Column="1" 
                     HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="15"
-                    Background="Transparent"> 
+                    Background="Transparent">
             <Control Template="{StaticResource PlayerTemplate}"/>
         </StackPanel>
 
@@ -69,11 +69,11 @@
         <StackPanel DataContext="{Binding Path=evan}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="15">
             <Control Template="{StaticResource PlayerTemplate}"/>
         </StackPanel>
-        
+
         <StackPanel DataContext="{Binding Path=chad}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="15">
             <Control Template="{StaticResource PlayerTemplate}"/>
         </StackPanel>
-        
+
         <ListView x:Name="lvCommunityCards" ItemsSource="{Binding CommunityCards, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource CardTemplate}"
                   Grid.Row="1" Grid.Column="1" BorderThickness="0" Background="Transparent" HorizontalAlignment="Center">
             <ListView.ItemsPanel>
@@ -82,6 +82,12 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Stretch">
+            <Button x:Name="btnCall" Content="Call" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom"/>
+            <Button x:Name="btnRaise" Content="Raise" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" />
+            <Button x:Name="btnFold" Content="Fold" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" />
+        </StackPanel>
 
 
     </Grid>
