@@ -51,13 +51,17 @@ namespace WPFPokerGame.Models
         public static double OtherPlayersBets { get; set; }
         public WinningHands MyBestHand { get; set; } // Doesn't need to be shown at this point in development. 
         public CardFace BestWinningFace { get; private set; } // Doesn't need to be shown at this point in development. 
-        public DecisionType PlayersDecision { get; protected set; } // Doesn't need to be shown at this point of development. 
+        public DecisionType PlayersDecision { get; set; } // Doesn't need to be shown at this point of development. 
 
+        public bool IsPlayerTurn { get; set; } 
+
+        public bool StillInGame = true;
 
         public PlayerModel(string playerName)
         {
             _playerName = playerName;
             _money = 102;
+            IsPlayerTurn = false;
         }
 
         public PlayerModel()
@@ -240,10 +244,14 @@ namespace WPFPokerGame.Models
             OtherPlayersBets = otherBet;
         }
 
-        public abstract bool VerifyDecision();
+        public virtual Decision PerformTurn()
+        {
+            DecisionType decision = DecisionType.Call;
+            return new Decision(decision);
+        } 
 
-        public abstract Decision PerformTurn();
 
+        #region Implement INotifyPropertyChanged
         // INotifyPropertyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;
         private void RaisePropertyChanged(string property)
@@ -253,5 +261,6 @@ namespace WPFPokerGame.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
+        #endregion
     }
 }

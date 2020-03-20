@@ -5,57 +5,44 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using WPFPokerGame.Models.Player;
+using System.Collections.ObjectModel;
 
 namespace WPFPokerGame.Models
 {
-    class Game
+    public class Game
     {
         // Properties
-        public List<PlayerModel> Players { get; }
+        private List<PlayerModel> _playerList { get; set; }
+        
         // Perhaps make a bool in player that if it's false, they are faded to indicate that they are no longer participating in the round. 
         public int RoundCount { get; private set; }
         public LoanShark LoanShark = new LoanShark();
         public HumanPlayer HumanPlayingGame = new HumanPlayer();
+        public Round CurrentRound { get; set; } 
 
         // Constructors
         public Game() { }
         public Game(IEnumerable<PlayerModel> playersInGame)
         {
-            Players = playersInGame.ToList();
+            _playerList = playersInGame.ToList();
         }
 
         // Methods
         public void RunGame()
         {
-            do
-            {
-                NextRound(2.0, LoanShark, RoundCount);
-                Players.RemoveAll(player => player.Money < 0.01);
-                DeletePlayersHands();
-                RoundCount++;
-                /*if(HumanPlayingGame.PlayerLoan !=null)
-                    LoanShark.MatureLoan(RoundCount)*/
-            } while (Players.Count() > 1 && !DidHumanDebtExpire() && HumanPlayingGame.Money > 0.01);
-
-            if(DidHumanDebtExpire() || HumanPlayingGame.Money < 0.01)
-            {
-                // Implement logic for if the human is out of money. 
-            }
-            else
-            {
-                
-            }
+            CurrentRound = new Round();
+            CurrentRound.RunRound(_playerList, LoanShark, RoundCount);
         }
 
-        public void NextRound(double v, LoanShark loanShark, int roundNumber)
+        /*public void NextRound(double v, LoanShark loanShark, int roundNumber)
         {
             var nextRound = new Round(v);
-            nextRound.RunRound(Players, loanShark, roundNumber);
+            nextRound.RunRound(_playerList, loanShark, roundNumber);
         }
 
         public void DeletePlayersHands()
         {
-            foreach(var p in Players)
+            foreach(var p in _playerList)
             {
                 p.Hand.Clear();
             }
@@ -63,10 +50,10 @@ namespace WPFPokerGame.Models
 
         public bool DidHumanDebtExpire()
         {
-            /*if (HumanPlayingGame.PlayerLoan != null)
+            *//*if (HumanPlayingGame.PlayerLoan != null)
                 return HumanPlayingGame.PlayerLoan.DurationOfLoan > 2;// 4;
             else
-                return false;*/
+                return false;*//*
             return false;
         }
         
@@ -74,6 +61,6 @@ namespace WPFPokerGame.Models
         {
             // Needs to be implemented. 
             throw new NotImplementedException();
-        }
+        }*/
     }
 }

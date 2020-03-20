@@ -1,6 +1,6 @@
 ﻿namespace WPFPokerGame.Models
 {
-    public partial class Decision
+    public class Decision
     {
         public DecisionType SelDecisionType { get; }
         public double Amount { get; }

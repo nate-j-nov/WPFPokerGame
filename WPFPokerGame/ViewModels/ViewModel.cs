@@ -18,8 +18,8 @@ namespace WPFPokerGame.ViewModels
         public ComputerPlayer evan { get; set; } = new ComputerPlayer("Evan");
         public ComputerPlayer chad { get; set; } = new ComputerPlayer("Chad");
 
-        public ObservableCollection<PlayerModel> PlayersInGame { get; set; } = new ObservableCollection<PlayerModel>();
-        public ObservableCollection<Card> CommunityCards { get; set; } = new ObservableCollection<Card>();
+        public List<PlayerModel> PlayersInGame { get; set; } = new List<PlayerModel>();
+        public Game CurrentGame { get; set; }
 
         public ViewModel()
         {
@@ -29,12 +29,8 @@ namespace WPFPokerGame.ViewModels
             PlayersInGame.Add(evan);
             PlayersInGame.Add(chad);
 
-            PopulateDisplayCards();
-            foreach (var player in PlayersInGame)
-            {
-                dealer.DealPlayerCards(player);
-            }
-            DrawCommunityCards(5);
+            CurrentGame = new Game(PlayersInGame);
+            CurrentGame.RunGame();
         }
 
         // Methods
@@ -45,7 +41,7 @@ namespace WPFPokerGame.ViewModels
         /// as well as the static PlayerCommCards parameter in PlayerModel that is used so all players know what they have. 
         /// </summary>
         /// <param name="numCards"></param>
-        public void DrawCommunityCards(int numCards)
+        /*public void DrawCommunityCards(int numCards)
         {
             for (int i = 0; i < numCards; i++)
             {
@@ -53,10 +49,17 @@ namespace WPFPokerGame.ViewModels
                 CommunityCards.Add(tempCard);
                 PlayerModel.PlayerCommCards.Add(tempCard);
             }
-        }
+        }*/
 
+
+        // Implement Shuffle Cards Command (Will delete because it's just here for demonstration purposes)
         private ICommand _shuffleCardsCommand = null;
         public ICommand ShuffleCardsCmd => _shuffleCardsCommand ?? (_shuffleCardsCommand = new ShuffleCardsCommand());
+
+        // Implement Call Command
+        private ICommand _callCommand = null;
+        public ICommand CallCmd => _callCommand ?? (_callCommand = new CallCommand());
+
         public void PopulateDisplayCards()
         {
             dealer.PopulateDeck();

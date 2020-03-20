@@ -249,18 +249,14 @@ namespace WPFPokerGame.Models.Player
             }
         }
 
-        public override bool VerifyDecision()
+        /*public override bool VerifyDecision()
         {
             int choice = 1;
             if (choice == 1)
                 return true;
             else
                 return false;
-        }
+        }*/
 
-        public override Decision PerformTurn()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using WPFPokerGame.Models.Cards;
 using WPFPokerGame.Models.Player;
+using System.Collections.ObjectModel;
 
 namespace WPFPokerGame.Models
 {
-    class Round : INotifyPropertyChanged
+    public class Round : INotifyPropertyChanged
     {
         // Properties
         private double _ante = 2.00;
@@ -44,11 +45,28 @@ namespace WPFPokerGame.Models
             }
         }
 
+        private string _message;
+        public string Message
+        {
+            get
+            {
+                return _message;
+            }
+            set
+            {
+                if (_message == value) return;
+                _message = value;
+                RaisePropertyChanged("Message");
+            }
+        }
+
+        private List<PlayerModel> _playersInRound = new List<PlayerModel>();
         private Dealer _dealer = new Dealer();
-        private List<Card> _commCards = new List<Card>();
         public LoanShark LoanShark = new LoanShark();
         public int RoundCount { get; set; }
         private List<PlayerModel> _roundWinners;
+
+        public ObservableCollection<Card> CommunityCards { get; set; } = new ObservableCollection<Card>();
 
         // Constructors
         public Round() { }
@@ -68,46 +86,44 @@ namespace WPFPokerGame.Models
         public void RunRound(IEnumerable<PlayerModel> roundParticipants, LoanShark ls, int roundNumber)
         {
             LoanShark = ls;
-            List<PlayerModel> playersInRound = new List<PlayerModel>();
-            playersInRound.AddRange(roundParticipants);
+
+            _playersInRound.AddRange(roundParticipants);
 
             _dealer.PopulateDeck();
             _dealer.ShuffleDeck();
 
-            PayAntes(playersInRound);
+            PayAntes(_playersInRound);
             _betToMatch = _ante;
 
             PlayerModel.SetOtherPlayersBets(_betToMatch);
 
-            foreach (var p in playersInRound)
+            foreach (var p in _playersInRound)
             {
                 _dealer.DealPlayerCards(p);
             }
 
-            int flips = 0;
-            do
-            {
-                int cardsToDraw;
-                if (flips == 0)
-                {
-                    cardsToDraw = 3;
-                    DrawCommunityCards(cardsToDraw);
-                }
-                else
-                {
-                    cardsToDraw = 1;
-                    DrawCommunityCards(cardsToDraw);
-                }
-                BettingCycle(playersInRound, flips);
-                playersInRound.RemoveAll(player => player.PlayersDecision == DecisionType.Fold);
-                flips++;
-            } while (flips < 3 && playersInRound.Count() > 1);
 
-            _roundWinners = GetWinner(playersInRound);
-            DistributeWinnings(_roundWinners);
-            DeleteHands(playersInRound);
-            DeletePlayerCommCards();
-            _commCards.Clear();
+            List<PlayerModel> _computerPlayers = new List<PlayerModel>();
+            foreach (var p in _playersInRound)
+            {
+                if (p is ComputerPlayer cp)
+                    _computerPlayers.Add(cp);
+            }
+
+            int flips = 0;
+
+            int cardsToDraw;
+            if (flips == 0)
+            {
+                cardsToDraw = 3;
+                DrawCommunityCards(cardsToDraw);
+                BettingCycle(_computerPlayers, RoundCount);
+            }
+            else
+            {
+                cardsToDraw = 1;
+                DrawCommunityCards(cardsToDraw);
+            }
         }
 
         public void PayAntes(List<PlayerModel> playerList)
@@ -132,68 +148,51 @@ namespace WPFPokerGame.Models
             for (int i = 0; i < numCards; i++)
             {
                 Card tempCard = _dealer.DrawCard();
-                _commCards.Add(tempCard);
+                CommunityCards.Add(tempCard);
                 PlayerModel.PlayerCommCards.Add(tempCard);
             }
         }
 
-        public void BettingCycle(List<PlayerModel> playerList, int roundNumber)
+        public async void BettingCycle(List<PlayerModel> playerList, int roundNumber)
         {
             foreach (var p in playerList)
             {
-                if (p is HumanPlayer)
-                {
-                    HumanPlayer hp = new HumanPlayer();
-                    hp = (HumanPlayer)p;
-
-                    if (hp.PlayerLoan != null)
-                    {
-                        LoanShark.AskForRepayment(hp);
-                    }
-                    else
-                    {
-                        LoanShark.OfferLoan(RoundCount, hp);
-                    }
-                }
                 ExecuteTurn(p, roundNumber);
+                await Task.Delay(2000);
             }
         }
 
         public void ExecuteTurn(PlayerModel player, int roundNumber)
         {
-            Decision decision = new Decision();
-            do
+            Decision decision;
+
+            if (player is ComputerPlayer computer)
+                decision = computer.PerformTurn(roundNumber);
+            else
+                decision = player.PerformTurn();
+
+            /*else
+                decision = player.PerformTurn();*/
+
+            switch (decision.SelDecisionType)
             {
-                if (player is ComputerPlayer)
-                {
-                    ComputerPlayer tempComputerPlayer = (ComputerPlayer)player;
-                    decision = tempComputerPlayer.PerformTurn(roundNumber);
-                }
-                else
-                {
-                    decision = player.PerformTurn();
-                }
+                case DecisionType.Call:
+                    Call(player);
+                    break;
 
-                switch (decision.SelDecisionType)
-                {
-                    case DecisionType.Call:
-                        Call(player);
-                        break;
+                case DecisionType.Fold:
+                    Fold(player);
+                    break;
 
-                    case DecisionType.Fold:
-                        Fold(player);
-                        break;
-
-                    case DecisionType.Raise:
-                        if (player is HumanPlayer)
-                        {
-                            HumanPlayer humanPlayer = (HumanPlayer)player;
-                        }
-                        // Add logic to deal with this. 
-                        Raise(player);
-                        break;
-                }
-            } while (!player.VerifyDecision());
+                case DecisionType.Raise:
+                    if (player is HumanPlayer)
+                    {
+                        HumanPlayer humanPlayer = (HumanPlayer)player;
+                    }
+                    Raise(player);
+                    break;
+            }
+            Message = $"{player.PlayerName} chose to {player.PlayersDecision.ToString()}";
         }
 
         void Call(PlayerModel player)
@@ -209,23 +208,9 @@ namespace WPFPokerGame.Models
 
         void Raise(PlayerModel player)
         {
-            if(player is HumanPlayer)
-            {
-                try
-                {
-                    // Get info from player.
-                }
-                catch
-                {
-                    Raise(player);
-                }
-                if(player.RaiseAmount <= player.Money && player.RaiseAmount > 0)
-                {
-                    player.Money -= (player.RaiseAmount + _betToMatch);
-                    _pot += player.RaiseAmount;
-                    BetToMatch += player.RaiseAmount;
-                }
-            }
+            player.Money -= (player.RaiseAmount + _betToMatch);
+            _pot += player.RaiseAmount;
+            BetToMatch += player.RaiseAmount;
         }
 
         public List<PlayerModel> GetWinner(List<PlayerModel> playersInRound)

@@ -19,7 +19,7 @@
             </StackPanel>
         </DataTemplate>
 
-
+        
         <ControlTemplate x:Key="PlayerTemplate">
             <StackPanel>
                 <TextBlock x:Name="tbName" Text="{Binding Path=PlayerName, UpdateSourceTrigger=PropertyChanged}" 
@@ -27,7 +27,7 @@
                                VerticalAlignment="Bottom" HorizontalAlignment="Center"
                             Foreground="LightGray"/>
 
-                <TextBlock x:Name="tbMoney" Text="{Binding Path=Money, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0: $#.##}}" 
+                <TextBlock x:Name="tbMoney" Text="{Binding Path=Money, UpdateSourceTrigger=PropertyChanged, StringFormat='c'}" 
                                    VerticalAlignment="Bottom" HorizontalAlignment="Center"
                            Foreground="Lime" FontSize="20"/>
 
@@ -56,6 +56,9 @@
             <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
 
+        <TextBlock x:Name="tbMessage" Text="{Binding CurrentGame.CurrentRound.Message}" Grid.Row="0" Grid.Column="0" 
+                   FontSize="20" Foreground="White" Margin="20"/>
+
         <StackPanel DataContext="{Binding Path=nate}" Grid.Row="2" Grid.Column="1" 
                     HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="15"
                     Background="Transparent">
@@ -74,8 +77,8 @@
             <Control Template="{StaticResource PlayerTemplate}"/>
         </StackPanel>
 
-        <ListView x:Name="lvCommunityCards" ItemsSource="{Binding CommunityCards, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource CardTemplate}"
-                  Grid.Row="1" Grid.Column="1" BorderThickness="0" Background="Transparent" HorizontalAlignment="Center">
+        <ListView x:Name="lvCommunityCards" ItemsSource="{Binding CurrentGame.CurrentRound.CommunityCards, UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource CardTemplate}"
+                  Grid.Row="1" Grid.Column="1" BorderThickness="0" Background="Transparent" HorizontalAlignment="Left" Padding="200 0 0 0">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
@@ -84,10 +87,14 @@
         </ListView>
 
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Stretch">
-            <Button x:Name="btnCall" Content="Call" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom"/>
+            <Button x:Name="btnCall" Content="Call" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom"
+                    Command="{Binding Path=DataContext.CallCmd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
             <Button x:Name="btnRaise" Content="Raise" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" />
             <Button x:Name="btnFold" Content="Fold" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" />
         </StackPanel>
+
+        <TextBlock x:Name="tbPot" Text="{Binding CurrentGame.CurrentRound.Pot, StringFormat=Pot: {0:C}}" Grid.Row="2" Grid.Column="0" Margin="20"
+                   VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="35" Foreground="Lime"/>
 
 
     </Grid>
