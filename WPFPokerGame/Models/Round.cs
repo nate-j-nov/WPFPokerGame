@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using WPFPokerGame.Models.Cards;
@@ -60,16 +59,18 @@ namespace WPFPokerGame.Models
             }
         }
 
-        private List<PlayerModel> _playersInRound = new List<PlayerModel>();
+        private List<PlayerModel> PlayersInRound = new List<PlayerModel>();
         private Dealer _dealer = new Dealer();
         public LoanShark LoanShark = new LoanShark();
         public int RoundCount { get; set; }
-        private List<PlayerModel> _roundWinners;
+        //private List<PlayerModel> _roundWinners;
+
+        
 
         public ObservableCollection<Card> CommunityCards { get; set; } = new ObservableCollection<Card>();
 
         // Constructors
-        public Round() { }
+        public Round() {  /*RoundCount called here*/ }
         public Round(double ante)
         {
             _ante = ante;
@@ -87,27 +88,18 @@ namespace WPFPokerGame.Models
         {
             LoanShark = ls;
 
-            _playersInRound.AddRange(roundParticipants);
+            PlayersInRound.AddRange(roundParticipants);
 
             _dealer.PopulateDeck();
             _dealer.ShuffleDeck();
 
-            PayAntes(_playersInRound);
+            PayAntes(PlayersInRound);
             _betToMatch = _ante;
 
             PlayerModel.SetOtherPlayersBets(_betToMatch);
-
-            foreach (var p in _playersInRound)
-            {
+            foreach (var p in PlayersInRound)
+            { 
                 _dealer.DealPlayerCards(p);
-            }
-
-
-            List<PlayerModel> _computerPlayers = new List<PlayerModel>();
-            foreach (var p in _playersInRound)
-            {
-                if (p is ComputerPlayer cp)
-                    _computerPlayers.Add(cp);
             }
 
             int flips = 0;
@@ -117,7 +109,7 @@ namespace WPFPokerGame.Models
             {
                 cardsToDraw = 3;
                 DrawCommunityCards(cardsToDraw);
-                BettingCycle(_computerPlayers, RoundCount);
+                BettingCycle(PlayersInRound, RoundCount);
             }
             else
             {
@@ -155,24 +147,28 @@ namespace WPFPokerGame.Models
 
         public async void BettingCycle(List<PlayerModel> playerList, int roundNumber)
         {
+            Console.WriteLine($"Number of players Players in Betting Cycle: {playerList.Count}");
             foreach (var p in playerList)
             {
                 ExecuteTurn(p, roundNumber);
+                Message = $"{p.PlayerName} chose to {p.PlayersDecision.ToString()}";
                 await Task.Delay(2000);
             }
         }
 
-        public void ExecuteTurn(PlayerModel player, int roundNumber)
+        public async void ExecuteTurn(PlayerModel player, int roundNumber)
         {
             Decision decision;
+            player.IsPlayerTurn = true;
 
             if (player is ComputerPlayer computer)
                 decision = computer.PerformTurn(roundNumber);
             else
-                decision = player.PerformTurn();
-
-            /*else
-                decision = player.PerformTurn();*/
+            {
+                var humanplayer = (HumanPlayer)player;
+                await humanplayer.WaitForHumanResponse();
+                decision = new Decision(humanplayer.PlayersDecision);
+            }
 
             switch (decision.SelDecisionType)
             {
@@ -192,7 +188,7 @@ namespace WPFPokerGame.Models
                     Raise(player);
                     break;
             }
-            Message = $"{player.PlayerName} chose to {player.PlayersDecision.ToString()}";
+            Console.WriteLine(Message);
         }
 
         void Call(PlayerModel player)
@@ -259,6 +255,7 @@ namespace WPFPokerGame.Models
             PlayerModel.PlayerCommCards.Clear();
         }
 
+
         // INotifyPropertyChagned Implementation
         public event PropertyChangedEventHandler PropertyChanged;
         private void RaisePropertyChanged(string property)
@@ -268,5 +265,7 @@ namespace WPFPokerGame.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
+
+        
     }
 }

@@ -5,6 +5,7 @@ using WPFPokerGame.Models.Cards;
 using WPFPokerGame.Models;
 using WPFPokerGame.Models.Player;
 using WPFPokerGame.Commands;
+using System;
 
 namespace WPFPokerGame.ViewModels
 {
@@ -13,21 +14,22 @@ namespace WPFPokerGame.ViewModels
         Dealer dealer = new Dealer();
 
         // Create players
-        public HumanPlayer nate { get; set; } = new HumanPlayer("Nate");
         public ComputerPlayer jake { get; set; } = new ComputerPlayer("Jake");
         public ComputerPlayer evan { get; set; } = new ComputerPlayer("Evan");
         public ComputerPlayer chad { get; set; } = new ComputerPlayer("Chad");
+        public HumanPlayer nate { get; set; } = new HumanPlayer("Nate");
 
         public List<PlayerModel> PlayersInGame { get; set; } = new List<PlayerModel>();
         public Game CurrentGame { get; set; }
 
         public ViewModel()
         {
-            // Add players to the ObservableCollection
-            PlayersInGame.Add(nate);
+            // Add players to the ObservableCollection         
             PlayersInGame.Add(jake);
             PlayersInGame.Add(evan);
             PlayersInGame.Add(chad);
+            PlayersInGame.Add(nate);
+
 
             CurrentGame = new Game(PlayersInGame);
             CurrentGame.RunGame();
@@ -53,12 +55,12 @@ namespace WPFPokerGame.ViewModels
 
 
         // Implement Shuffle Cards Command (Will delete because it's just here for demonstration purposes)
-        private ICommand _shuffleCardsCommand = null;
-        public ICommand ShuffleCardsCmd => _shuffleCardsCommand ?? (_shuffleCardsCommand = new ShuffleCardsCommand());
+        /* private ICommand _shuffleCardsCommand = null;
+         public ICommand ShuffleCardsCmd => _shuffleCardsCommand ?? (_shuffleCardsCommand = new ShuffleCardsCommand());*/
 
         // Implement Call Command
-        private ICommand _callCommand = null;
-        public ICommand CallCmd => _callCommand ?? (_callCommand = new CallCommand());
+        private ICommand _commandCall = null;
+        public ICommand CommandCall => _commandCall ?? (_commandCall = new PlayerDecisionCommand(nate, DecisionType.Call));
 
         public void PopulateDisplayCards()
         {

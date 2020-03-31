@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:data="clr-namespace:WPFPokerGame.Models"
-             xmlns:playerdata="clr-namespace:WPFPokerGame.Models"
+             xmlns:playerdata="clr-namespace:WPFPokerGame.Models.Player"
              xmlns:local="clr-namespace:WPFPokerGame.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -19,7 +19,6 @@
             </StackPanel>
         </DataTemplate>
 
-        
         <ControlTemplate x:Key="PlayerTemplate">
             <StackPanel>
                 <TextBlock x:Name="tbName" Text="{Binding Path=PlayerName, UpdateSourceTrigger=PropertyChanged}" 
@@ -48,7 +47,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -88,7 +86,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Stretch">
             <Button x:Name="btnCall" Content="Call" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom"
-                    Command="{Binding Path=DataContext.CallCmd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                    Command="{Binding Path=CommandCall}" CommandParameter="data:DecisionType.Call"/>
             <Button x:Name="btnRaise" Content="Raise" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" />
             <Button x:Name="btnFold" Content="Fold" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" />
         </StackPanel>

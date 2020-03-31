@@ -51,7 +51,23 @@ namespace WPFPokerGame.Models
         public static double OtherPlayersBets { get; set; }
         public WinningHands MyBestHand { get; set; } // Doesn't need to be shown at this point in development. 
         public CardFace BestWinningFace { get; private set; } // Doesn't need to be shown at this point in development. 
-        public DecisionType PlayersDecision { get; set; } // Doesn't need to be shown at this point of development. 
+
+        private DecisionType _playersDecision;
+        public DecisionType PlayersDecision 
+        {
+            get
+            {
+                return _playersDecision;
+            }
+
+            set
+            {
+                if (_playersDecision == value) return;
+                _playersDecision = value;
+                RaisePropertyChanged("PlayersDecision");
+            }
+
+        } 
 
         public bool IsPlayerTurn { get; set; } 
 
@@ -157,6 +173,7 @@ namespace WPFPokerGame.Models
             }
         }
 
+        #region Boolean Variables to identify hand
         public bool HasAtLeastOnePair(IEnumerable<Card> _handCards)
         {
             return _handCards.GroupBy(card => card.Face).Any(group => group.Count() == 2);
@@ -248,7 +265,8 @@ namespace WPFPokerGame.Models
         {
             DecisionType decision = DecisionType.Call;
             return new Decision(decision);
-        } 
+        }
+        #endregion
 
 
         #region Implement INotifyPropertyChanged

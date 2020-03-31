@@ -12,7 +12,7 @@ namespace WPFPokerGame.Models
     public class Game
     {
         // Properties
-        private List<PlayerModel> _playerList { get; set; }
+        private List<PlayerModel> PlayerList { get; set; }
         
         // Perhaps make a bool in player that if it's false, they are faded to indicate that they are no longer participating in the round. 
         public int RoundCount { get; private set; }
@@ -24,14 +24,14 @@ namespace WPFPokerGame.Models
         public Game() { }
         public Game(IEnumerable<PlayerModel> playersInGame)
         {
-            _playerList = playersInGame.ToList();
+            PlayerList = playersInGame.ToList();
         }
 
         // Methods
         public void RunGame()
         {
             CurrentRound = new Round();
-            CurrentRound.RunRound(_playerList, LoanShark, RoundCount);
+            CurrentRound.RunRound(PlayerList, LoanShark, RoundCount);
         }
 
         /*public void NextRound(double v, LoanShark loanShark, int roundNumber)

@@ -1,28 +1,47 @@
 ﻿using System;
+using System.Windows.Input;
+using WPFPokerGame.Commands;
+using WPFPokerGame.Models;
+using System.Threading.Tasks;
 
 namespace WPFPokerGame.Models.Player
 {
     public class HumanPlayer : PlayerModel
     {
+        // Parameters
         public bool HasALoan { get; set; }
         public bool InDebt;
         public double DebtOutstanding { get; set; }
         public Loan PlayerLoan = null;
-        
-        public HumanPlayer(string playerName) : base(playerName)
-        {
+        public bool PlayerDecisionChanged { get; set; }
 
-        }
-        public HumanPlayer() { }
 
+        // Constructors
+        public HumanPlayer(string playerName) : base(playerName) {}
+
+        public HumanPlayer() : base() { }
+
+        // Player Decision Commands
+        /*public ICommand CommandCall { get; private set; }
+        public ICommand CommandFold { get; private set; }
+        public ICommand CommandRaise { get; private set; }*/
+
+        // Methods
+
+        //public TaskCompletionSource<bool> WaitingForPlayerDecision = new TaskCompletionSource<bool>();
         public Decision PerformTurn()
         {
-            // DecisionType decision = ()userChoice;
-            DecisionType decision = DecisionType.Call;
-            return new Decision(decision);
+            return new Decision(PlayersDecision);
         }
 
-        
+        public async Task WaitForHumanResponse()
+        {
+            while(PlayersDecision == 0)
+            {
+                PerformTurn();
+                await Task.Delay(5);
+            }
+        }
 
         /*public bool InDebt()
         {
