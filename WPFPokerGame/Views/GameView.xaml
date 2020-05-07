@@ -84,9 +84,9 @@
             </ListView.ItemsPanel>
         </ListView>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Stretch">
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Stretch" DataContext="{Binding nate}">
             <Button x:Name="btnCall" Content="Call" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom"
-                    Command="{Binding Path=CommandCall}" CommandParameter="data:DecisionType.Call"/>
+                    Command="{Binding Path=CallCommandAsync}" CommandParameter="data:DecisionType.Call"/>
             <Button x:Name="btnRaise" Content="Raise" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" />
             <Button x:Name="btnFold" Content="Fold" Width="70" Height="25" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" />
         </StackPanel>

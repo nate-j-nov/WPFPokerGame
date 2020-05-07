@@ -6,36 +6,46 @@ namespace WPFPokerGame.Commands
 
     public class CommandBase : ICommand
     {
-        private Action _action;
-        private Func<bool> _canExecute;
+        private Action _targetExecuteMethod;
+        private Func<bool> _targetCanExecuteMethod;
 
-        /// <summary>
-        /// Creates instance of the command handler
-        /// </summary>
-        /// <param name="action"> Action to be executed by the comand</param>
-        /// <param name="canExecute" A boolean porperty to containing current permissions to execute. 
-        public CommandBase(Action action, Func<bool> canExecute)
+        public CommandBase(Action executeMethod)
         {
-            _action = action;
-            _canExecute = canExecute;
+            _targetExecuteMethod = executeMethod;
         }
-        /// <summary>
-        /// Wiresx can execute changed event
-        /// </summary>
-        public event EventHandler CanExecuteChanged
+
+        public CommandBase(Action executeMethod, Func<bool> canExecuteMethod)
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            _targetExecuteMethod = executeMethod;
+            _targetCanExecuteMethod = canExecuteMethod;
         }
         
-        public bool CanExecute(object parameter)
+        public void RaiseCanExecuteChanged()
         {
-            return _canExecute.Invoke();
+            CanExecuteChanged(this, EventArgs.Empty);
         }
 
-        public void Execute(object parameter)
+        public event EventHandler CanExecuteChanged = delegate { };
+        
+        bool ICommand.CanExecute(object parameter)
         {
-            _action();
+            if(_targetCanExecuteMethod != null)
+            {
+                return _targetCanExecuteMethod();
+            }
+
+            if(_targetExecuteMethod != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        void ICommand.Execute(object parameter)
+        {
+            if (_targetExecuteMethod != null)
+                _targetExecuteMethod();
         }
     }
 }

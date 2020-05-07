@@ -6,6 +6,7 @@ using System.ComponentModel;
 using WPFPokerGame.Models.Cards;
 using WPFPokerGame.Models.Player;
 using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace WPFPokerGame.Models
 {
@@ -84,7 +85,7 @@ namespace WPFPokerGame.Models
         /// <param name="roundParticipants"></param>
         /// <param name="ls"></param>
         /// <param name="roundNumber"></param>
-        public void RunRound(IEnumerable<PlayerModel> roundParticipants, LoanShark ls, int roundNumber)
+        public async Task RunRound(IEnumerable<PlayerModel> roundParticipants, LoanShark ls, int roundNumber)
         {
             LoanShark = ls;
 
@@ -109,7 +110,7 @@ namespace WPFPokerGame.Models
             {
                 cardsToDraw = 3;
                 DrawCommunityCards(cardsToDraw);
-                BettingCycle(PlayersInRound, RoundCount);
+                await BettingCycle(PlayersInRound, RoundCount);
             }
             else
             {
@@ -145,18 +146,18 @@ namespace WPFPokerGame.Models
             }
         }
 
-        public async void BettingCycle(List<PlayerModel> playerList, int roundNumber)
+        public async Task BettingCycle(List<PlayerModel> playerList, int roundNumber)
         {
-            Console.WriteLine($"Number of players Players in Betting Cycle: {playerList.Count}");
+            Console.WriteLine($"Number of players Players in Betting Cycle: {playerList.Count}" + Environment.NewLine + $"Thread: {Thread.CurrentThread.ManagedThreadId}");
             foreach (var p in playerList)
             {
-                ExecuteTurn(p, roundNumber);
-                Message = $"{p.PlayerName} chose to {p.PlayersDecision.ToString()}";
-                await Task.Delay(2000);
+                await ExecuteTurn(p, roundNumber);
+                Message = $"{p.PlayerName} chose to {p.PlayersDecision.ToString()}" ;
+                await Task.Delay(TimeSpan.FromSeconds(2));
             }
         }
 
-        public async void ExecuteTurn(PlayerModel player, int roundNumber)
+        public async Task ExecuteTurn(PlayerModel player, int roundNumber)
         {
             Decision decision;
             player.IsPlayerTurn = true;
@@ -165,10 +166,13 @@ namespace WPFPokerGame.Models
                 decision = computer.PerformTurn(roundNumber);
             else
             {
-                var humanplayer = (HumanPlayer)player;
-                await humanplayer.WaitForHumanResponse();
-                decision = new Decision(humanplayer.PlayersDecision);
+                var humanPlayer = (HumanPlayer)player;
+                humanPlayer.IsPlayerTurn = true;
+                Message = $"It's your turn, {humanPlayer.PlayerName}!";
+                await humanPlayer.PerformTurn();
+                decision = new Decision(humanPlayer.PlayersDecision);
             }
+
 
             switch (decision.SelDecisionType)
             {
@@ -188,7 +192,7 @@ namespace WPFPokerGame.Models
                     Raise(player);
                     break;
             }
-            Console.WriteLine(Message);
+            Console.WriteLine(Message + Environment.NewLine + $"Thread: {Thread.CurrentThread.ManagedThreadId}");
         }
 
         void Call(PlayerModel player)
@@ -207,6 +211,7 @@ namespace WPFPokerGame.Models
             player.Money -= (player.RaiseAmount + _betToMatch);
             _pot += player.RaiseAmount;
             BetToMatch += player.RaiseAmount;
+            Console.WriteLine($"{player.PlayerName} bet {player.RaiseAmount}");
         }
 
         public List<PlayerModel> GetWinner(List<PlayerModel> playersInRound)
@@ -265,7 +270,5 @@ namespace WPFPokerGame.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
-
-        
     }
 }

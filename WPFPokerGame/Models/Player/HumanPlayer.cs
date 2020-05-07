@@ -3,6 +3,8 @@ using System.Windows.Input;
 using WPFPokerGame.Commands;
 using WPFPokerGame.Models;
 using System.Threading.Tasks;
+using System.Threading;
+using Nito.AsyncEx;
 
 namespace WPFPokerGame.Models.Player
 {
@@ -14,56 +16,42 @@ namespace WPFPokerGame.Models.Player
         public double DebtOutstanding { get; set; }
         public Loan PlayerLoan = null;
         public bool PlayerDecisionChanged { get; set; }
+        public IAsyncCommand CallCommandAsync { get; set; }
 
+        public static AsyncManualResetEvent asyncManualResetEvent = new AsyncManualResetEvent(true);
 
         // Constructors
-        public HumanPlayer(string playerName) : base(playerName) {}
+        public HumanPlayer(string playerName) : base(playerName)
+        {
+            CallCommandAsync = new AsyncCommand(ExecuteCallAsync, CanCall);
+        }
 
         public HumanPlayer() : base() { }
 
-        // Player Decision Commands
-        /*public ICommand CommandCall { get; private set; }
-        public ICommand CommandFold { get; private set; }
-        public ICommand CommandRaise { get; private set; }*/
-
-        // Methods
-
-        //public TaskCompletionSource<bool> WaitingForPlayerDecision = new TaskCompletionSource<bool>();
-        public Decision PerformTurn()
+        public async Task PerformTurn()
         {
-            return new Decision(PlayersDecision);
+            IsPlayerTurn = true;
+            await CallCommandAsync.ExecuteAsync();
         }
 
-        public async Task WaitForHumanResponse()
+        /*public void PerformTurn() }*/
+
+        #region Implement PlayerDecisionCommand
+        
+        // I know this doesn't need to be async--it just needs to be awaitable--I just haven't changed it to be synchronous
+        private async Task ExecuteCallAsync()
         {
-            while(PlayersDecision == 0)
-            {
-                PerformTurn();
-                await Task.Delay(5);
-            }
+            Console.WriteLine("Inside ExecuteCallAsync" + Environment.NewLine +
+                $"Thread in OnCall: {Thread.CurrentThread.ManagedThreadId}");
+            PlayersDecision = DecisionType.Call;
+            //asyncManualResetEvent.Set();
         }
 
-        /*public bool InDebt()
+        private bool CanCall()
         {
-            return PlayerLoan.LoanAmount > 0.01;
+            return IsPlayerTurn;
         }
-
-        public void AcceptLoan(Loan newLoan)
-        {
-            PlayerLoan = newLoan;
-        }
-
-        public void MakePayment(double payment)
-        {
-            Money -= payment;
-            Console.WriteLine(Environment.NewLine + $"Your current debt is now {PlayerLoan.LoanAmount:c}");
-        }
-
-        public void PrintDebtOutstanding()
-        {
-            Console.WriteLine($"Debt Outstanding: {PlayerLoan.LoanAmount:c}" + Environment.NewLine +
-                $"Loan Duration: {PlayerLoan.DurationOfLoan}" + Environment.NewLine);
-        }*/
+        #endregion
     }
 }
 
