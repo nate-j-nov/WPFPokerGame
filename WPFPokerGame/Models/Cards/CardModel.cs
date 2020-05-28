@@ -1,12 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
 using System.Windows.Interop;
-using System.Windows.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -148,7 +145,7 @@ namespace WPFPokerGame.Models.Cards
         Func<int, BitmapSource> GetBitmapSource = (resource) =>
         {
             // Load the Bitmap library.
-            IntPtr cardLibrary = LoadLibraryEx("C:\\Users\\natej\\Documents\\C#\\WPFPokerGame\\WPFPokerGame\\WPFPokerGame\\Cards.Dll", IntPtr.Zero, LOAD_LIBRARY_AS_DATAFILE);
+            IntPtr cardLibrary = LoadLibraryEx("Cards.Dll", IntPtr.Zero, LOAD_LIBRARY_AS_DATAFILE);
             if (cardLibrary == IntPtr.Zero)
                 throw new FileNotFoundException("Couldn't find Cards.dll");
 
@@ -212,10 +209,7 @@ namespace WPFPokerGame.Models.Cards
         public event PropertyChangedEventHandler PropertyChanged;
         private void RaisePropertyChanged(string property)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
     }
 }

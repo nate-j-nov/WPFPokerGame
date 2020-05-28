@@ -18,7 +18,6 @@ namespace WPFPokerGame.Models
         public HumanPlayer HumanPlayingGame = new HumanPlayer();
 
         // Constructors
-        public Game() { }
         public Game(IEnumerable<PlayerModel> playersInGame)
         {
             Players = playersInGame.ToList();

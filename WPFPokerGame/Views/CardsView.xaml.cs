@@ -1,11 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Data;
-using System.Diagnostics;
-using System;
-using System.Windows.Input;
-using WPFPokerGame.Commands;
-
 
 namespace WPFPokerGame.Views
 {
@@ -17,7 +10,6 @@ namespace WPFPokerGame.Views
         public CardsView()
         {
             InitializeComponent();
-            this.DataContext = new WPFPokerGame.ViewModels.ViewModel();
         }
         public void Bind(ViewModels.ViewModel cardsViewModel)
         {

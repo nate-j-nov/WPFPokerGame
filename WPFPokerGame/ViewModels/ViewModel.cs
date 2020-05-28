@@ -1,40 +1,75 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WPFPokerGame.Models.Cards;
 using WPFPokerGame.Models;
 using WPFPokerGame.Models.Player;
 using WPFPokerGame.Commands;
+using Microsoft.Expression.Interactivity.Core;
+using System;
+using WPFPokerGame.Services;
 
 namespace WPFPokerGame.ViewModels
 {
     public class ViewModel
     {
-        Dealer dealer = new Dealer();
+        private IGameService _gameService;
+        private Dealer dealer = new Dealer();
 
         // Create players
-        public HumanPlayer nate { get; set; } = new HumanPlayer("Nate");
-        public ComputerPlayer jake { get; set; } = new ComputerPlayer("Jake");
-        public ComputerPlayer evan { get; set; } = new ComputerPlayer("Evan");
-        public ComputerPlayer chad { get; set; } = new ComputerPlayer("Chad");
+        public HumanPlayer Nate { get; } = new HumanPlayer("Nate");
+        public ComputerPlayer Jake { get; } = new ComputerPlayer("Jake");
+        public ComputerPlayer Evan { get; } = new ComputerPlayer("Evan");
+        public ComputerPlayer Chad { get; } = new ComputerPlayer("Chad");
 
-        public ObservableCollection<PlayerModel> PlayersInGame { get; set; } = new ObservableCollection<PlayerModel>();
-        public ObservableCollection<Card> CommunityCards { get; set; } = new ObservableCollection<Card>();
+        public ObservableCollection<PlayerModel> PlayersInGame { get; } = new ObservableCollection<PlayerModel>();
+        public ObservableCollection<Card> CommunityCards { get; } = new ObservableCollection<Card>();
 
-        public ViewModel()
+        public ICommand CallCommand { get; }
+        public ICommand RaiseCommand { get; }
+        public ICommand FoldCommand { get; }
+
+        public ViewModel(IGameService gameService)
         {
+            _gameService = gameService;
+
             // Add players to the ObservableCollection
-            PlayersInGame.Add(nate);
-            PlayersInGame.Add(jake);
-            PlayersInGame.Add(evan);
-            PlayersInGame.Add(chad);
+            PlayersInGame.Add(Nate);
+            PlayersInGame.Add(Jake);
+            PlayersInGame.Add(Evan);
+            PlayersInGame.Add(Chad);
 
             PopulateDisplayCards();
             foreach (var player in PlayersInGame)
             {
                 dealer.DealPlayerCards(player);
             }
-            DrawCommunityCards(5);
+
+            CallCommand = new SyncCommand<HumanPlayer>(Call);
+            RaiseCommand = new SyncCommand<HumanPlayer>(Raise);
+            FoldCommand = new SyncCommand<HumanPlayer>(Fold);
+
+            //DrawCommunityCards(5);
+        }
+
+        private void Call(HumanPlayer p)
+        {
+            //  Pass call command to the game service.
+            //  Handle updates to the ViewModel.
+            _gameService.HandleCall(p);
+        }
+
+        private void Raise(HumanPlayer p)
+        {
+            //  Pass raise command to the game service.
+            //  Handle updates to the ViewModel.
+            _gameService.HandleRaise(p);
+        }
+
+        private void Fold(HumanPlayer p)
+        {
+            //  Pass fold command to the game service.
+            //  Handle updates to the ViewModel.
+            _gameService.HandleFold(p);
         }
 
         // Methods
